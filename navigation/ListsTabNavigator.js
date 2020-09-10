@@ -1,14 +1,28 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createAppContainer } from 'react-navigation'
 import CharactersScreen from '../screens/CharactersListScreen';
 import LocationsScreen from '../screens/LocationsListScreen';
 import EpisodesScreen from '../screens/EpisodesListScreen';
 
 
 const ListsTabNavigator = createBottomTabNavigator({
-    Characters: CharactersScreen,
-    Locations: LocationsScreen,
-    Episodes: EpisodesScreen
-});
+    Characters: { screen: CharactersScreen },
+    Locations: { screen: LocationsScreen },
+    Episodes: { screen: EpisodesScreen }
+},
+{
+  tabBarOptions: {
+
+    activeTintColor: "#8bcf21",
+    style:{
+      alignItems:"center"
+    },
+    inactiveTintColor: "grey",
+    showLabel: true
+  },
+  animationEnabled: true
+}
+);
+
+
 
 export default ListsTabNavigator;

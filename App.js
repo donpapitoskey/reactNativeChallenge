@@ -25,9 +25,17 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import AppNavigator from './navigation/AppNavigator';
+import { enableScreens } from 'react-native-screens';
+import client from './services/apollo';
+import {ApolloProvider} from 'react-apollo';
+
+enableScreens();
+
+
 
 const App: () => React$Node = () => {
   return (
+    
     <AppNavigator />
   );
 };
