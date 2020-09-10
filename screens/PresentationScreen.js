@@ -9,9 +9,10 @@ const PresentationScreen = props => {
         <View style={styles.screen}> 
             <Text>Presentation Screen</Text>
             <Button 
-            title="goto Chars Screen" 
+            title="goto Next Screen" 
             onPress={() => {
-            props.navigation.navigate({routeName: "Lists" })}}/>
+            props.navigation.navigate({routeName: "Lists" })
+            }}/>
         </View>
 
     ); 
