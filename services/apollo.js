@@ -1,7 +1,7 @@
-import {ApolloClient, InMemoryCache} from 'apollo-boost';
+import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 let client = new ApolloClient({ 
-    link: "https://rickandmortyapi.com/graphql",
+    uri: "https://rickandmortyapi.com/graphql",
     cache: new InMemoryCache()
 });
 
