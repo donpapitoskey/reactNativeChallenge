@@ -11,6 +11,10 @@ const DetailsScreen = props => {
     ); 
 }
 
+DetailsScreen.navigationOptions = navigationData => {
+    const something = navigationData.navigation.getParam();
+};
+
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
