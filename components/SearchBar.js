@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import Icon from 'react-native-ionicons';
+import { Icon } from 'react-native-elements';
 
 const SearchBar = props => {
 
@@ -9,13 +9,27 @@ const SearchBar = props => {
 
         <View style={styles.header}>
             <View style={styles.container}>
-                <TextInput style={styles.text}
-                    onFocus={focusedHandler}
-                    clearButtonMode='unless-editing'
-                />
+                <View style={styles.search}>
+                    <TextInput style={styles.text}
+                        onFocus={focusedHandler}
+                        clearButtonMode='unless-editing'
+                    />
+                </View>
                 {showSearchButton ?
                     <View>
-                        <Icon name="search" />
+                        <Icon name="search" type="ionicon" />
+                    </View> : null}
+            </View>
+            <View style={styles.container}>
+                <View style={styles.search}>
+                    <TextInput style={styles.text}
+                        onFocus={focusedHandler}
+                        clearButtonMode='unless-editing'
+                    />
+                </View>
+                {showSearchButton ?
+                    <View>
+                        <Icon name="search" type="ionicon" />
                     </View> : null}
             </View>
         </View>
@@ -26,7 +40,7 @@ const SearchBar = props => {
 const styles = StyleSheet.create({
     header: {
         width: "100%",
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         height: 105,
@@ -35,8 +49,15 @@ const styles = StyleSheet.create({
     },
     container: {
         width: '80%',
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+
+    },
+    search: {
         backgroundColor: 'white',
         borderColor: "black",
+        width: "100%",
         height: 40,
         borderRadius: 10,
         shadowColor: 'black',
@@ -44,12 +65,14 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 10,
         elevation: 3,
+        marginTop: 10
     },
     text: {
         fontSize: 18
     },
     icon: {
-        width: 50
+        width: 70,
+        height: 70
     }
 });
 
