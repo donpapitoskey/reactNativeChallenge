@@ -14,6 +14,8 @@ const CharactersScreen = (props) => {
   const [searchNameValue, setSearchNameValue] = useState('Rick');
   const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
+  const [clearNameVisible, setClearNameVisible] = useState(false);
+  const [clearTypeVisible, setClearTypeVisible] = useState(false);
 
   const focusedHandler = event => {
     console.log("focused")
@@ -31,9 +33,9 @@ const CharactersScreen = (props) => {
     client.query({
       query:
         Query({
-          typeOfSearch:"characters",
-          searchingPage: searchingPageValue ,
-          searchName: searchNameValue ,
+          typeOfSearch: "characters",
+          searchingPage: searchingPageValue,
+          searchName: searchNameValue,
           searchType: searchTypeValue
         }
         )
@@ -84,7 +86,14 @@ const CharactersScreen = (props) => {
         <SearchBar
           showSearchButton={showSearchButton}
           focusedHandler={focusedHandler}
-
+          searchNameValue={searchNameValue}
+          searchTypeValue={searchTypeValue}
+          setSearchNameValue={setSearchNameValue}
+          setSearchTypeValue={setSearchTypeValue}
+          clearNameVisible={clearNameVisible}
+          clearTypeVisible={clearTypeVisible}
+          setClearNameVisible={setClearNameVisible}
+          setClearTypeVisible={setClearTypeVisible}
         />
         <Button title="get query" onPress={onSearchHandler} />
         <Text>Characters Screen</Text>
