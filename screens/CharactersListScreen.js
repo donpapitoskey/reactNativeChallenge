@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TouchableWithoutFeedback, Keyboard, Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import client from '../services/apollo';
-import { useQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 import Card from '../components/Card';
 
 const query = gql`
@@ -24,6 +24,7 @@ const query = gql`
     }
 
 `;
+
 
 const CharactersScreen = (props) => {
 
@@ -48,9 +49,9 @@ const CharactersScreen = (props) => {
       query
     })
       .then(({ data }) => {
-        console.log(arrayChars)
         setArrayCharsValue(data.characters.results);
         setFetchingValue(false);
+        console.log(arrayChars);
 
       })
       .catch((err) => {

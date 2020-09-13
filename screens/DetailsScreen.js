@@ -3,17 +3,18 @@ import { Text, View, StyleSheet, Image, Dimensions } from 'react-native';
 
 const DetailsScreen = props => {
 
-    const { name, image, dimension, episode, type, gender, species } = props.navigation.getParam("item");
+    const { name, image, dimension, episode, type, gender, species, created } = props.navigation.getParam("item");
     return (
         <View style={styles.screen}>
             {image ? <Image style={styles.image} source={{ uri: image }} /> : null}
-
-            <Text style={styles.text}>{name}</Text>
-            {dimension ? <Text style={styles.text}> {dimension} </Text> : null}
-            {episode ? <Text style={styles.text}>{episode} </Text> : null}
-            {type ? <Text style={styles.text}>{type} </Text> : null}
-            {gender ? <Text style={styles.text}>{gender} </Text> : null}
-            {species ? <Text  style={styles.text}>{species} </Text> : null}
+            <Text style={styles.title}>{name}</Text>
+            {dimension ? <Text style={styles.subTitle}> {dimension} </Text> : null}
+            {episode ? <Text style={styles.subTitle}>{episode} </Text> : null}
+            {type ? <Text style={styles.subTitle}>{type} </Text> : null}
+            {gender ? <Text style={styles.subTitle}>{gender} </Text> : null}
+            {species ? <Text  style={styles.subTitle}>{species} </Text> : null}
+            {created ? <Text  style={styles.subTitle}>{created} </Text> : null}
+            
         </View>
 
     );
