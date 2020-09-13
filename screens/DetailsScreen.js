@@ -1,25 +1,46 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image, Dimensions } from 'react-native';
 
 const DetailsScreen = props => {
 
+    const { name, image, dimension, episode, type, gender, species } = props.navigation.getParam("item");
     return (
-        <View style={styles.screen}> 
-            <Text>Details Screen</Text>
+        <View style={styles.screen}>
+            {image ? <Image style={styles.image} source={{ uri: image }} /> : null}
+
+            <Text style={styles.text}>{name}</Text>
+            {dimension ? <Text style={styles.text}> {dimension} </Text> : null}
+            {episode ? <Text style={styles.text}>{episode} </Text> : null}
+            {type ? <Text style={styles.text}>{type} </Text> : null}
+            {gender ? <Text style={styles.text}>{gender} </Text> : null}
+            {species ? <Text  style={styles.text}>{species} </Text> : null}
         </View>
 
-    ); 
+    );
 }
 
 DetailsScreen.navigationOptions = navigationData => {
-    const something = navigationData.navigation.getParam();
+    const something = navigationData.navigation.getParam("item");
+
+    return {
+        headerTitle: something.name
+    };
 };
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: 'flex-start',
+        height: Dimensions.get('window').height * 0.4,
+        width: Dimensions.get('window').width,
+        margin: 15
+    },
+    image: {
+        height: '90%',
+
+        resizeMode: 'contain'
+    },
+    text: {
+        fontSize: 24
     }
 });
 

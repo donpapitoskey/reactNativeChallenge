@@ -77,7 +77,7 @@ const CharactersScreen = (props) => {
         props.navigation.navigate({
           routeName: 'Details',
           params: {
-
+            item: itemData.item
           }
         })
       }}
