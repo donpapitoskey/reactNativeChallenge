@@ -4,39 +4,17 @@ import SearchBar from '../components/SearchBar';
 import client from '../services/apollo';
 import { gql } from '@apollo/client';
 import Card from '../components/Card';
-
-const query = gql`
-query {
-	episodes(filter:{ name:""} page:1){
-    info{
-      count
-      pages
-      next
-    }
-    results{
-      name
-      created
-      characters{
-      name
-        species
-        gender
-    }
-      
-      
-    }
-  }
-}
-
-`;
-
+import Query from  '../services/queries';
 
 const EpisodesScreen = (props) => {
 
-  let [arrayChars, setArrayCharsValue] = useState([]);
-  let [fetching, setFetchingValue] = useState(false);
+  let [arrayEpisodes, setArrayEpisodesValue] = useState([]);
+  const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
+  const [searchNameValue, setSearchNameValue] = useState('Pilot');
+  const [searchingPageValue, setSearchingPage] = useState(1);
 
-  focusedHandler = event => {
+  const focusedHandler = event => {
     console.log("focused")
     setSearchButton(true);
   };
@@ -50,12 +28,18 @@ const EpisodesScreen = (props) => {
 
     setFetchingValue(true);
     client.query({
-      query
+      query:
+        Query({
+          typeOfSearch: "episodes",
+          searchingPage: searchingPageValue,
+          searchName: searchNameValue
+        }
+        )
     })
       .then(({ data }) => {
-        setArrayCharsValue(data.episodes.results);
+        setArrayEpisodesValue(data.episodes.results);
         setFetchingValue(false);
-        console.log(arrayChars);
+        console.log(arrayEpisodes);
 
       })
       .catch((err) => {
@@ -73,20 +57,20 @@ const EpisodesScreen = (props) => {
   const renderListItem = itemData => {
     const { image, name, dimension, episode } = itemData.item;
     return (
-      <Card 
-      name={name}
-      image={image}
-      dimension={dimension}
-      episode={episode}
-      onSelect={() => {
-        props.navigation.navigate({
-          routeName: 'Details',
-          params: {
-            item: itemData.item
-          }
-        })
-      }}
-      /> 
+      <Card
+        name={name}
+        image={image}
+        dimension={dimension}
+        episode={episode}
+        onSelect={() => {
+          props.navigation.navigate({
+            routeName: 'Details',
+            params: {
+              item: itemData.item
+            }
+          })
+        }}
+      />
     );
   };
 
@@ -97,14 +81,15 @@ const EpisodesScreen = (props) => {
         <SearchBar showSearchButton={showSearchButton} focusedHandler={focusedHandler} />
         <Button title="get query" onPress={onSearchHandler} />
         <Text>Episodes Screen</Text>
-        {fetching ? <Text>Loading ...</Text> :
-          <FlatList data={arrayChars} onEndReachedThreshold={2} keyExtractor={(item, index) => item.name} renderItem={renderListItem} numColumns={1} />}
-        <Button
-          title="goto Details Screen"
-          onPress={() => {
-            props.navigation.navigate({ routeName: 'Details' });
-          }}
+        {fetching ? <Text>Loading ...</Text> : null}
+        <FlatList
+          data={arrayEpisodes}
+          onEndReachedThreshold={2}
+          keyExtractor={(item, index) => item.name}
+          renderItem={renderListItem}
+          numColumns={1}
         />
+
       </View>
     </TouchableWithoutFeedback>
   );
