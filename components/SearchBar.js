@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, Button, TextInput, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import IconButton from '../components/IconButton';
@@ -17,6 +17,9 @@ const SearchBar = props => {
         setClearTypeVisible
     } = props;
 
+    const nameRef = useRef();
+    const typeRef = useRef();
+
     const onNameChangeHandler = text => {
         setSearchNameValue(text);
         console.log(text.length);
@@ -27,9 +30,25 @@ const SearchBar = props => {
         }
         console.log(clearNameVisible);
     };
+    const onTypeChangeHandler = text => {
+        setSearchTypeValue(text);
+        if (text.length > 2) {
+            setClearTypeVisible(true);
+        } else {
+            setClearTypeVisible(false);
+        }
+
+    };
 
     const nameCancelButtonPressedHandler = event => {
-        setSearchNameValue('');
+        setSearchNameValue(nameRef.current.clear());
+        setClearNameVisible(false);
+
+    };
+
+    const typeCancelButtonPressedHandler = event => {
+        setSearchTypeValue(typeRef.current.clear());
+        setClearTypeVisible(false);
     };
 
     return (
@@ -40,13 +59,13 @@ const SearchBar = props => {
                     {showSearchButton ?
                         <IconButton name="search" /> : null}
                     <TextInput style={styles.text}
-                        ref={searchNameValue}
+                        ref={nameRef}
                         onFocus={focusedHandler}
                         onChangeText={onNameChangeHandler}
                         clearButtonMode='unless-editing'
                     />
                     {clearNameVisible ?
-                        <IconButton name="close-sharp" onPressAction={() => setSearchNameValue('')} /> : null}
+                        <IconButton name="close-sharp" onPressAction={nameCancelButtonPressedHandler} /> : null}
                 </View>
             </View>
             <View style={styles.container}>
@@ -56,10 +75,13 @@ const SearchBar = props => {
                             <Icon name="search" type="ionicon" />
                         </View> : null}
                     <TextInput style={styles.text}
+                        ref={typeRef}
                         onFocus={focusedHandler}
-                        onChangeText={text => setSearchTypeValue(text)}
+                        onChangeText={onTypeChangeHandler}
                         clearButtonMode='unless-editing'
                     />
+                    {clearTypeVisible ?
+                        <IconButton name="close-sharp" onPressAction={typeCancelButtonPressedHandler} /> : null}
                 </View>
 
             </View>
