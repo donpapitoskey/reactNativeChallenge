@@ -103,6 +103,8 @@ const CharactersScreen = (props) => {
           keyExtractor={(item, index) => item.name}
           renderItem={renderListItem}
           numColumns={1}
+          onEndReached={() =>  console.log("fetching hon")}
+          onEndReachedThreshold={0.8}
         />
         {fetching ? <Text>Loading ...</Text> : null}
 

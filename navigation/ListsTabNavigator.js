@@ -10,8 +10,12 @@ const ListsTabNavigator = createBottomTabNavigator({
     Episodes: { screen: EpisodesScreen }
 },
 {
-  tabBarOptions: {
+  navigationOptions: {
+    swipeEnabled: true
 
+  },
+  tabBarOptions: {
+    swipeEnabled: true,
     activeTintColor: "#8bcf21",
     style:{
       alignItems:"center"

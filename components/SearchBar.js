@@ -25,13 +25,13 @@ const SearchBar = props => {
 
     const onNameChangeHandler = text => {
         setSearchNameValue(text);
-        console.log(text.length);
+
         if (text.length > 0) {
             setClearNameVisible(true);
         } else {
             setClearNameVisible(false);
         }
-        console.log(clearNameVisible);
+
     };
     const onTypeChangeHandler = text => {
         setSearchTypeValue(text);
@@ -67,16 +67,16 @@ const SearchBar = props => {
                         <IconButton name="search" /> : null}
                     <TextInput style={styles.text}
                         ref={nameRef}
-                        placeholder={nameRef.length < 1  ? null : "Name..."}
+                        placeholder={nameRef.length < 1 ? null : "Name..."}
                         onFocus={focusedHandler}
                         onChangeText={onNameChangeHandler}
                         clearButtonMode='unless-editing'
                     />
                     {clearNameVisible ?
-                        <IconButton style={{marginLeft: showSearchButton ? null : 24}} name="close-sharp" onPressAction={nameCancelButtonPressedHandler} /> : null}
+                        <IconButton style={{ marginLeft: showSearchButton ? null : 24 }} name="close-sharp" onPressAction={nameCancelButtonPressedHandler} /> : null}
                 </View>
             </View>
-            {episodes ? null: <View style={styles.container}>
+            {episodes ? null : <View style={styles.container}>
                 <View style={styles.search}>
                     {showSearchButton ?
                         <View>
