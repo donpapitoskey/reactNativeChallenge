@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import client from '../services/apollo';
 import { gql } from '@apollo/client';
 import Card from '../components/Card';
-import Query from  '../services/queries';
+import Query from '../services/queries';
 
 const EpisodesScreen = (props) => {
 
@@ -13,9 +13,9 @@ const EpisodesScreen = (props) => {
   const [showSearchButton, setSearchButton] = useState(false);
   const [searchNameValue, setSearchNameValue] = useState('Pilot');
   const [searchingPageValue, setSearchingPage] = useState(1);
+  const [clearNameVisible, setClearNameVisible] = useState(false);
 
   const focusedHandler = event => {
-    console.log("focused")
     setSearchButton(true);
   };
 
@@ -25,7 +25,6 @@ const EpisodesScreen = (props) => {
   }, [showSearchButton]);
 
   const onSearchHandler = (event) => {
-
     setFetchingValue(true);
     client.query({
       query:
@@ -39,8 +38,6 @@ const EpisodesScreen = (props) => {
       .then(({ data }) => {
         setArrayEpisodesValue(data.episodes.results);
         setFetchingValue(false);
-        console.log(arrayEpisodes);
-
       })
       .catch((err) => {
         console.log(err)
@@ -55,12 +52,10 @@ const EpisodesScreen = (props) => {
 
 
   const renderListItem = itemData => {
-    const { image, name, dimension, episode } = itemData.item;
+    const { name, episode } = itemData.item;
     return (
       <Card
         name={name}
-        image={image}
-        dimension={dimension}
         episode={episode}
         onSelect={() => {
           props.navigation.navigate({
@@ -78,7 +73,15 @@ const EpisodesScreen = (props) => {
 
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <SearchBar showSearchButton={showSearchButton} focusedHandler={focusedHandler} />
+        <SearchBar
+          showSearchButton={showSearchButton}
+          focusedHandler={focusedHandler}
+          searchNameValue={searchNameValue}
+          setSearchNameValue={setSearchNameValue}
+          clearNameVisible={clearNameVisible}
+          setClearNameVisible={setClearNameVisible}
+          episodes={true}
+        />
         <Button title="get query" onPress={onSearchHandler} />
         <Text>Episodes Screen</Text>
         {fetching ? <Text>Loading ...</Text> : null}

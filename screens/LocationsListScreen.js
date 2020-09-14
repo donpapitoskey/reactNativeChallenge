@@ -16,9 +16,10 @@ const LocationsScreen = (props) => {
   const [searchNameValue, setSearchNameValue] = useState('Earth');
   const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
+  const [clearNameVisible, setClearNameVisible] = useState(false);
+  const [clearTypeVisible, setClearTypeVisible] = useState(false);
 
   const focusedHandler = event => {
-    console.log("focused")
     setSearchButton(true);
   };
 
@@ -43,8 +44,6 @@ const LocationsScreen = (props) => {
       .then(({ data }) => {
         setArrayLocationsValue(data.locations.results);
         setFetchingValue(false);
-        console.log(arrayLocations);
-
       })
       .catch((err) => {
         console.log(err)
@@ -59,13 +58,11 @@ const LocationsScreen = (props) => {
 
 
   const renderListItem = itemData => {
-    const { image, name, dimension, episode } = itemData.item;
+    const { name, dimension } = itemData.item;
     return (
       <Card 
       name={name}
-      image={image}
       dimension={dimension}
-      episode={episode}
       onSelect={() => {
         props.navigation.navigate({
           routeName: 'Details',
@@ -85,6 +82,14 @@ const LocationsScreen = (props) => {
         <SearchBar
           showSearchButton={showSearchButton}
           focusedHandler={focusedHandler}
+          searchNameValue={searchNameValue}
+          searchTypeValue={searchTypeValue}
+          setSearchNameValue={setSearchNameValue}
+          setSearchTypeValue={setSearchTypeValue}
+          clearNameVisible={clearNameVisible}
+          clearTypeVisible={clearTypeVisible}
+          setClearNameVisible={setClearNameVisible}
+          setClearTypeVisible={setClearTypeVisible}
         />
         <Button title="get query" onPress={onSearchHandler} />
         <Text>Characters Screen</Text>

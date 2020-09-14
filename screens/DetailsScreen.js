@@ -8,7 +8,7 @@ const DetailsScreen = props => {
         <View style={styles.screen}>
             {image ? <Image style={styles.image} source={{ uri: image }} /> : null}
             <Text style={styles.title}>{name}</Text>
-            {dimension ? <Text style={styles.subTitle}> {dimension} </Text> : null}
+            {dimension ? <Text style={styles.subTitle}>{dimension}</Text> : null}
             {episode ? <Text style={styles.subTitle}>{episode} </Text> : null}
             {type ? <Text style={styles.subTitle}>{type} </Text> : null}
             {gender ? <Text style={styles.subTitle}>{gender} </Text> : null}

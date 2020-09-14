@@ -11,14 +11,13 @@ const CharactersScreen = (props) => {
   const [arrayChars, setArrayCharsValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
-  const [searchNameValue, setSearchNameValue] = useState('Rick');
+  const [searchNameValue, setSearchNameValue] = useState('');
   const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
 
   const focusedHandler = event => {
-    console.log("focused")
     setSearchButton(true);
   };
 
@@ -27,9 +26,10 @@ const CharactersScreen = (props) => {
 
   }, [showSearchButton]);
 
+  
+
   const onSearchHandler = (event) => {
     setFetchingValue(true);
-
     client.query({
       query:
         Query({
@@ -37,6 +37,7 @@ const CharactersScreen = (props) => {
           searchingPage: searchingPageValue,
           searchName: searchNameValue,
           searchType: searchTypeValue
+          
         }
         )
       ,
@@ -44,7 +45,7 @@ const CharactersScreen = (props) => {
       .then(({ data }) => {
         setArrayCharsValue(data.characters.results);
         setFetchingValue(false);
-        console.log(arrayChars);
+        
 
       })
       .catch((err) => {
@@ -60,13 +61,11 @@ const CharactersScreen = (props) => {
 
 
   const renderListItem = itemData => {
-    const { image, name, dimension, episode } = itemData.item;
+    const { image, name, } = itemData.item;
     return (
       <Card
         name={name}
         image={image}
-        dimension={dimension}
-        episode={episode}
         onSelect={() => {
           props.navigation.navigate({
             routeName: 'Details',

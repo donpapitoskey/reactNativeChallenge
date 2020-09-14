@@ -13,7 +13,7 @@ const Card = props => {
                 <View  style={styles.container}>
                     {image ? <Image style={styles.image} source={{ uri: image }} /> : null}
                     <Text>{name}</Text>
-                    {dimension ? <Text > {dimension} </Text> : null}
+                    {dimension ? <Text >{dimension} </Text> : null}
                     {episode ? <Text  >{episode} </Text> : null}
                 </View>
             </TouchableNativeFeedback>
