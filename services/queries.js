@@ -14,6 +14,7 @@ const Query = props => {
                     created
                     episode
                     characters{
+                        id
                         name
                     }
           
@@ -28,6 +29,7 @@ const Query = props => {
                     type
                     dimension
                     residents{
+                        id
                         name
                     }
           

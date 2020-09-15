@@ -11,7 +11,7 @@ const EpisodesScreen = (props) => {
   const [arrayEpisodes, setArrayEpisodesValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
-  const [searchNameValue, setSearchNameValue] = useState('Pilot');
+  const [searchNameValue, setSearchNameValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
@@ -106,8 +106,7 @@ const EpisodesScreen = (props) => {
           episodes={true}
           onPress={onNewSearchHandler}
         />
-        <Button title="get query" onPress={onNewSearchHandler} />
-        <Text>Episodes Screen</Text>
+        <Text>{`Results for the search: Name : ${searchNameValue}`}</Text>
         {fetching ? <Text>Loading ...</Text> : null}
         <FlatList
           data={arrayEpisodes}

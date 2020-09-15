@@ -64,7 +64,9 @@ const SearchBar = props => {
             <View style={styles.container}>
                 <View style={styles.search}>
                     {showSearchButton ?
-                        <IconButton name="search" /> : null}
+                        <IconButton 
+                        name="search"
+                        onPressAction={onPress} /> : null}
                     <TextInput style={styles.text}
                         ref={nameRef}
                         placeholder={nameRef.length < 1 ? null : "Name..."}
@@ -83,7 +85,10 @@ const SearchBar = props => {
                 <View style={styles.search}>
                     {showSearchButton ?
                         <View>
-                            <IconButton name="search" />
+                            <IconButton 
+                            name="search"
+                            onPressAction={onPress}
+                             />
                         </View> : null}
                     <TextInput style={styles.text}
                         placeholder={typeRef.length < 1 ? null : "Type..."}
