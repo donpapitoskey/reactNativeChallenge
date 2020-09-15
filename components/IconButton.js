@@ -4,17 +4,30 @@ import { Icon } from 'react-native-elements';
 
 const IconButton = props => {
 
-    const { name, onPressAction, style } = props
+    const { name, onPressAction,style } = props
 
     return (
-        <TouchableNativeFeedback onPress={onPressAction}>
-            <View  style={style}>
-                <Icon name={name} type="ionicon" />
-            </View>
-        </TouchableNativeFeedback>
-
+        <View style={{...style,...styles.buttonContainer}}>
+            <TouchableNativeFeedback onPress={onPressAction}>
+                <View style={styles.button}>
+                    <Icon name={name} type="ionicon" />
+                </View>
+            </TouchableNativeFeedback>
+        </View>
     );
 
 };
 
+const styles = StyleSheet.create({
+    buttonContainer: {
+        borderRadius: 50,
+        overflow: 'hidden'
+    },
+    button: {
+        width: 50,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+    }
+});
 export default IconButton;

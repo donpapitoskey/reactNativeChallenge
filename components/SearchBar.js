@@ -10,14 +10,14 @@ const SearchBar = props => {
     const {
         focusedHandler,
         showSearchButton,
-        searchNameValue,
         setSearchTypeValue,
         setSearchNameValue,
         clearNameVisible,
         clearTypeVisible,
         setClearNameVisible,
         setClearTypeVisible,
-        episodes
+        episodes,
+        onPress
     } = props;
 
     const nameRef = useRef();
@@ -73,14 +73,17 @@ const SearchBar = props => {
                         clearButtonMode='unless-editing'
                     />
                     {clearNameVisible ?
-                        <IconButton style={{ marginLeft: showSearchButton ? null : 24 }} name="close-sharp" onPressAction={nameCancelButtonPressedHandler} /> : null}
+                        <IconButton 
+                            style={{marginLeft:showSearchButton ?  null: 51}}
+                            name="close-sharp" 
+                            onPressAction={nameCancelButtonPressedHandler} /> : null}
                 </View>
             </View>
             {episodes ? null : <View style={styles.container}>
                 <View style={styles.search}>
                     {showSearchButton ?
                         <View>
-                            <Icon name="search" type="ionicon" />
+                            <IconButton name="search" />
                         </View> : null}
                     <TextInput style={styles.text}
                         placeholder={typeRef.length < 1 ? null : "Type..."}
@@ -90,7 +93,10 @@ const SearchBar = props => {
                         clearButtonMode='unless-editing'
                     />
                     {clearTypeVisible ?
-                        <IconButton name="close-sharp" onPressAction={typeCancelButtonPressedHandler} /> : null}
+                        <IconButton 
+                        name="close-sharp" 
+                        style={{marginLeft:showSearchButton ?  null: 51}}
+                        onPressAction={typeCancelButtonPressedHandler} /> : null}
                 </View>
             </View>}
         </View>
@@ -132,7 +138,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18,
-        width: '85%'
+        width: '69%'
     },
     icon: {
         width: 70,

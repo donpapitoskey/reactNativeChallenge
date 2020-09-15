@@ -109,6 +109,7 @@ const LocationsScreen = (props) => {
           clearTypeVisible={clearTypeVisible}
           setClearNameVisible={setClearNameVisible}
           setClearTypeVisible={setClearTypeVisible}
+          onPress={onNewSearchHandler}
         />
         <Button title="get query" onPress={onNewSearchHandler} />
         <Text>Characters Screen</Text>

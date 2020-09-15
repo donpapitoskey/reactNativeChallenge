@@ -104,6 +104,7 @@ const EpisodesScreen = (props) => {
           clearNameVisible={clearNameVisible}
           setClearNameVisible={setClearNameVisible}
           episodes={true}
+          onPress={onNewSearchHandler}
         />
         <Button title="get query" onPress={onNewSearchHandler} />
         <Text>Episodes Screen</Text>
