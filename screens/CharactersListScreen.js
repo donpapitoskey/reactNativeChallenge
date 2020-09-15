@@ -29,7 +29,7 @@ const CharactersScreen = (props) => {
 
   useEffect(() => {
 
-  }, [showSearchButton, arrayChars]);
+  }, [showSearchButton]);
 
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
@@ -50,7 +50,7 @@ const CharactersScreen = (props) => {
         setFetchingValue(false);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setFetchingValue(false);
       });
   }
@@ -64,7 +64,8 @@ const CharactersScreen = (props) => {
 
   const onPageRequestHandler = event => {
     console.log(maxPagesValue);
-    if (searchingPageValue <= maxPagesValue) {
+
+    if (searchingPageValue < maxPagesValue) {
       const newPage = searchingPageValue + 1;
       console.log(newPage);
       onSearchHandler(newPage, arrayChars);
@@ -115,7 +116,7 @@ const CharactersScreen = (props) => {
         />
         <Button title="get query" onPress={onNewSearchHandler} />
         <Text>Characters Screen</Text>
-        {fetching && arrayChars === [] ? <Text>Loading ...</Text> : null}
+        {fetching ? <Text>Loading ...</Text> : null}
         <FlatList
           data={arrayChars}
           keyExtractor={(item, index) => item.id}

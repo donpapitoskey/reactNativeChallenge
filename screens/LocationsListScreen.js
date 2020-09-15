@@ -16,6 +16,7 @@ const LocationsScreen = (props) => {
   const [searchNameValue, setSearchNameValue] = useState('Earth');
   const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
+  const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
 
@@ -28,27 +29,45 @@ const LocationsScreen = (props) => {
 
   }, [showSearchButton]);
 
-  const onSearchHandler = (event) => {
+  const onSearchHandler = (newpage,arrayOp) => {
 
     setFetchingValue(true);
     client.query({
       query:
         Query({
           typeOfSearch:"locations",
-          searchingPage: searchingPageValue ,
+          searchingPage: newpage ,
           searchName: searchNameValue ,
           searchType: searchTypeValue
         }
         )
     })
       .then(({ data }) => {
-        setArrayLocationsValue(data.locations.results);
+        setMaxPageValue(data.locations.info.pages);
+        setArrayLocationsValue(arrayOp.concat(data.locations.results));
         setFetchingValue(false);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+        setFetchingValue(false);
       });
+  };
 
+  
+  const onNewSearchHandler = (event) => {
+    setArrayLocationsValue([]);
+    setSearchingPage(1);
+    outsidePressHandler();
+    onSearchHandler(1, []);
+  };
+
+  const onPageRequestHandler = event => {
+    
+    if (searchingPageValue < maxPagesValue) {
+      const newPage = searchingPageValue + 1;
+      onSearchHandler(newPage, arrayLocations);
+      setSearchingPage(newPage);
+    }
   };
 
   const outsidePressHandler = event => {
@@ -91,7 +110,7 @@ const LocationsScreen = (props) => {
           setClearNameVisible={setClearNameVisible}
           setClearTypeVisible={setClearTypeVisible}
         />
-        <Button title="get query" onPress={onSearchHandler} />
+        <Button title="get query" onPress={onNewSearchHandler} />
         <Text>Characters Screen</Text>
         {fetching ? <Text>Loading ...</Text> : null}
         <FlatList
@@ -100,6 +119,7 @@ const LocationsScreen = (props) => {
           keyExtractor={(item, index) => item.name}
           renderItem={renderListItem}
           numColumns={1}
+          onEndReached= {onPageRequestHandler}
         />
       </View>
     </TouchableWithoutFeedback>

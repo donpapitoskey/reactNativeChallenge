@@ -8,11 +8,12 @@ import Query from '../services/queries';
 
 const EpisodesScreen = (props) => {
 
-  let [arrayEpisodes, setArrayEpisodesValue] = useState([]);
+  const [arrayEpisodes, setArrayEpisodesValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
   const [searchNameValue, setSearchNameValue] = useState('Pilot');
   const [searchingPageValue, setSearchingPage] = useState(1);
+  const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
 
   const focusedHandler = event => {
@@ -24,25 +25,47 @@ const EpisodesScreen = (props) => {
 
   }, [showSearchButton]);
 
-  const onSearchHandler = (event) => {
+  const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
     client.query({
       query:
         Query({
           typeOfSearch: "episodes",
+          searchingPage: newpage,
           searchingPage: searchingPageValue,
           searchName: searchNameValue
         }
         )
     })
       .then(({ data }) => {
-        setArrayEpisodesValue(data.episodes.results);
+        setMaxPageValue(data.episodes.info.pages);
+        setArrayEpisodesValue(arrayOp.concat(data.episodes.results));
         setFetchingValue(false);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+        setFetchingValue(false);
       });
 
+  };
+
+  
+  const onNewSearchHandler = (event) => {
+    setArrayEpisodesValue([]);
+    setSearchingPage(1);
+    outsidePressHandler();
+    onSearchHandler(1, []);
+  };
+
+  const onPageRequestHandler = event => {
+    console.log(maxPagesValue);
+
+    if (searchingPageValue < maxPagesValue) {
+      const newPage = searchingPageValue + 1;
+      console.log(newPage);
+      onSearchHandler(newPage, arrayEpisodes);
+      setSearchingPage(newPage);
+    }
   };
 
   const outsidePressHandler = event => {
@@ -82,15 +105,16 @@ const EpisodesScreen = (props) => {
           setClearNameVisible={setClearNameVisible}
           episodes={true}
         />
-        <Button title="get query" onPress={onSearchHandler} />
+        <Button title="get query" onPress={onNewSearchHandler} />
         <Text>Episodes Screen</Text>
         {fetching ? <Text>Loading ...</Text> : null}
         <FlatList
           data={arrayEpisodes}
           onEndReachedThreshold={2}
-          keyExtractor={(item, index) => item.name}
+          keyExtractor={(item, index) => item.id}
           renderItem={renderListItem}
           numColumns={1}
+          onEndReached={onPageRequestHandler}
         />
 
       </View>
