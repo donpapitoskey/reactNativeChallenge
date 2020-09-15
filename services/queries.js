@@ -16,6 +16,7 @@ const Query = props => {
                     characters{
                         id
                         name
+                        image
                     }
           
                 `
@@ -31,6 +32,7 @@ const Query = props => {
                     residents{
                         id
                         name
+                        image
                     }
           
                 `

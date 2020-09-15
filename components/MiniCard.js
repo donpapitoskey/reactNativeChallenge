@@ -2,22 +2,17 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, Dimensions, TouchableNativeFeedback } from 'react-native';
 
 const Card = props => {
-    const { image, name, dimension, episode, onSelect } = props;
+    const { image, name} = props;
 
     return (
 
         <View>
-            <TouchableNativeFeedback 
-            style={{ flex: 1 }}
-            onPress={onSelect}>
+            
                 <View  style={styles.container}>
                     {image ? <Image style={styles.image} source={{ uri: image }} /> : null}
                     <Text>{name}</Text>
-                    {dimension ? <Text >{dimension} </Text> : null}
-                    {episode ? <Text  >{episode} </Text> : null}
-                    
                 </View>
-            </TouchableNativeFeedback>
+            
         </View>
 
     );
@@ -40,7 +35,7 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        height: '90%',
+        height: '70%',
 
         resizeMode: 'contain'
     }
