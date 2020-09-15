@@ -9,6 +9,7 @@ const Query = props => {
             searchCriteria = `name: "${searchName}"`
             requestProps =
                 `
+                    id
                     name
                     created
                     episode
@@ -22,6 +23,7 @@ const Query = props => {
             searchCriteria = `name: "${searchName}" type: "${searchType}"`
             requestProps =
                 `
+                    id
                     name
                     type
                     dimension
@@ -35,6 +37,7 @@ const Query = props => {
             searchCriteria = `name: "${searchName}" type: "${searchType}"`
             requestProps =
                 `
+                    id
                     name
                     gender
                     species

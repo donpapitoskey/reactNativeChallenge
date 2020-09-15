@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TouchableWithoutFeedback, Keyboard, Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import client from '../services/apollo';
@@ -14,44 +14,62 @@ const CharactersScreen = (props) => {
   const [searchNameValue, setSearchNameValue] = useState('');
   const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
+  const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
+
+
+
 
   const focusedHandler = event => {
     setSearchButton(true);
   };
 
 
+
   useEffect(() => {
 
-  }, [showSearchButton]);
+  }, [showSearchButton, arrayChars]);
 
-  
-
-  const onSearchHandler = (event) => {
+  const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
     client.query({
       query:
         Query({
           typeOfSearch: "characters",
-          searchingPage: searchingPageValue,
+          searchingPage: newpage,
           searchName: searchNameValue,
           searchType: searchTypeValue
-          
         }
         )
       ,
     })
       .then(({ data }) => {
-        setArrayCharsValue(data.characters.results);
+        setMaxPageValue(data.characters.info.pages);
+        setArrayCharsValue(arrayOp.concat(data.characters.results));
         setFetchingValue(false);
-        
-
       })
       .catch((err) => {
         console.log(err)
+        setFetchingValue(false);
       });
+  }
 
+  const onNewSearchHandler = (event) => {
+    setArrayCharsValue([]);
+    setSearchingPage(1);
+    outsidePressHandler();
+    onSearchHandler(1, []);
+  };
+
+  const onPageRequestHandler = event => {
+    console.log(maxPagesValue);
+    if (searchingPageValue <= maxPagesValue) {
+      const newPage = searchingPageValue + 1;
+      console.log(newPage);
+      onSearchHandler(newPage, arrayChars);
+      setSearchingPage(newPage);
+    }
   };
 
   const outsidePressHandler = event => {
@@ -62,6 +80,7 @@ const CharactersScreen = (props) => {
 
   const renderListItem = itemData => {
     const { image, name, } = itemData.item;
+    
     return (
       <Card
         name={name}
@@ -94,17 +113,16 @@ const CharactersScreen = (props) => {
           setClearNameVisible={setClearNameVisible}
           setClearTypeVisible={setClearTypeVisible}
         />
-        <Button title="get query" onPress={onSearchHandler} />
+        <Button title="get query" onPress={onNewSearchHandler} />
         <Text>Characters Screen</Text>
-        {fetching ? <Text>Loading ...</Text> : null}
+        {fetching && arrayChars === [] ? <Text>Loading ...</Text> : null}
         <FlatList
           data={arrayChars}
-          onEndReachedThreshold={2}
-          keyExtractor={(item, index) => item.name}
+          keyExtractor={(item, index) => item.id}
           renderItem={renderListItem}
           numColumns={1}
-          onEndReached={() =>  console.log("fetching hon")}
-          onEndReachedThreshold={0.8}
+          onEndReached={onPageRequestHandler}
+          onEndReachedThreshold={2}
         />
         {fetching ? <Text>Loading ...</Text> : null}
 
