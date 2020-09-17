@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -6,7 +6,7 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card} from '../../components';
+import {SearchBar, Card, ResultsText, SearchField} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -25,6 +25,9 @@ const CharactersScreen = (props) => {
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
+
+  const nameRef = useRef('');
+  const typeRef = useRef('');
 
   const focusedHandler = () => {
     setSearchButton(true);
@@ -75,6 +78,35 @@ const CharactersScreen = (props) => {
     setSearchButton(false);
   };
 
+  
+  const nameCancelButtonPressedHandler = () => {
+    nameRef.current.clear();
+    nameRef.current = '';
+    setSearchNameValue('');
+    setClearNameVisible(false);
+    if (searchTypeValue.length > 2) {
+      setSearchedNameValue('');
+      onNewSearchHandler();
+    }
+  };
+
+  const typeCancelButtonPressedHandler = () => {
+    typeRef.current.clear();
+    typeRef.current = '';
+    setSearchTypeValue('');
+    setClearTypeVisible(false);
+    if (searchNameValue.length > 2) {
+      setSearchedTypeValue('');
+      onNewSearchHandler();
+    }
+  };
+
+  const onPressHandler = () => {
+    if (searchNameValue.length > 2 || searchTypeValue.length > 2) {
+      outsidePressHandler();
+      onNewSearchHandler();
+    }
+  };
 
   const renderListItem = (itemData) => {
     const {image, name} = itemData.item;
@@ -111,34 +143,51 @@ const CharactersScreen = (props) => {
           setClearNameVisible={setClearNameVisible}
           setClearTypeVisible={setClearTypeVisible}
           onSearch={onNewSearchHandler}
-          onPress={outsidePressHandler}
-        />
+          onPress={outsidePressHandler}>
+          <SearchField
+            thePlaceholder="Name"
+            focusedHandler={focusedHandler}
+            showSearchButton={showSearchButton}
+            searchInputValue={searchNameValue}
+            searchOppositeValue={searchTypeValue}
+            setSearchInputValue={setSearchNameValue}
+            setSearchedInputValue={setSearchedNameValue}
+            clearInputVisible={clearNameVisible}
+            setClearInputVisible={setClearNameVisible}
+            onSearch={onNewSearchHandler}
+            onPressHandler={onPressHandler}
+          />
+          <SearchField
+            thePlaceholder="Type"
+            focusedHandler={focusedHandler}
+            showSearchButton={showSearchButton}
+            searchInputValue={searchTypeValue}
+            searchOppositeValue={searchNameValue}
+            setSearchInputValue={setSearchTypeValue}
+            setSearchedInputValue={setSearchedTypeValue}
+            clearInputVisible={clearTypeVisible}
+            setClearInputVisible={setClearTypeVisible}
+            onSearch={onNewSearchHandler}
+            onPressHandler={onPressHandler}
+          />
+
+        </SearchBar>
+
         {fetching ? <Text>Loading ...</Text> : null}
-        <Text>
-          {' '}
-          {searchedNameValue.length > 2 && searchTypeValue.length < 1
-            ? `Results for search: Name = "${searchedNameValue}"`
-            : null}
-          {searchedTypeValue.length > 2 && searchNameValue.length < 1
-            ? `Results for search: Type = "${searchedTypeValue}"`
-            : null}
-          {searchedTypeValue.length > 2 && searchNameValue.length > 1
-            ? `Results for search: Name = "${searchedNameValue}" Type = "${searchTypeValue}"`
-            : null}
-          {searchedNameValue.length > 2 &&
-          searchTypeValue.length > 1 &&
-          searchedTypeValue.length < 2
-            ? `Results for search: Name = "${searchNameValue}" Type = "${searchedTypeValue}"`
-            : null}
-        </Text>
-        <FlatList
+        <ResultsText
+          searchNameValue={searchNameValue}
+          searchedNameValue={searchedNameValue}
+          searchTypeValue={searchTypeValue}
+          searchedTypeValue={searchedTypeValue}
+        />
+        {errorFlag ? <Text>HOHOHO</Text> :<FlatList
           data={arrayChars}
           keyExtractor={(item, index) => item.id}
           renderItem={renderListItem}
           numColumns={1}
           onEndReached={onPageRequestHandler}
           onEndReachedThreshold={2}
-        />
+        />}
         {fetching ? <Text>Loading ...</Text> : null}
 
       </View>
