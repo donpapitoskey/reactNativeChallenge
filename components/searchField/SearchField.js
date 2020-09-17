@@ -6,7 +6,7 @@ import IconButton from '../iconButton';
 const SearchField = (props) => {
 
   const {
-    thePlaceholder,
+    placeholder,
     focusedHandler,
     showSearchButton,
     searchInputValue,
@@ -39,7 +39,7 @@ const SearchField = (props) => {
     inputRef.current = '';
     setSearchInputValue('');
     setClearInputVisible(false);
-    if (searchInputValue.length > 2) {
+    if (searchOppositeValue.length > 2) {
       setSearchedInputValue('');
       onSearch();
     }
@@ -55,7 +55,7 @@ const SearchField = (props) => {
           style={styles.text}
           ref={inputRef}
           value={searchInputValue}
-          placeholder={inputRef.length < 1 ? null : `${thePlaceholder}...`}
+          placeholder={inputRef.length < 1 ? null : `${placeholder}...`}
           onFocus={focusedHandler}
           onChangeText={onInputChangeHandler}
           clearButtonMode="unless-editing"

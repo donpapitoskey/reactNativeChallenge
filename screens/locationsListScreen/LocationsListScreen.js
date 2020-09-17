@@ -6,7 +6,7 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card} from '../../components';
+import {SearchBar, Card, ResultsText, SearchField} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -19,6 +19,7 @@ const LocationsScreen = (props) => {
   const [searchNameValue, setSearchNameValue] = useState('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchTypeValue, setSearchTypeValue] = useState('');
+  const [searchedTypeValue, setSearchedTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
@@ -72,6 +73,13 @@ const LocationsScreen = (props) => {
     setSearchButton(false);
   };
 
+  const onPressHandler = () => {
+    if (searchNameValue.length > 2 || searchTypeValue.length > 2) {
+      outsidePressHandler();
+      onNewSearchHandler();
+    }
+  };
+
   const renderListItem = (itemData) => {
     const {name, dimension} = itemData.item;
     return (
@@ -97,22 +105,41 @@ const LocationsScreen = (props) => {
   return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <SearchBar
-          showSearchButton={showSearchButton}
-          focusedHandler={focusedHandler}
-          searchNameValue={searchNameValue}
-          searchTypeValue={searchTypeValue}
-          setSearchNameValue={setSearchNameValue}
-          setSearchedNameValue={setSearchedNameValue}
-          setSearchTypeValue={setSearchTypeValue}
-          clearNameVisible={clearNameVisible}
-          clearTypeVisible={clearTypeVisible}
-          setClearNameVisible={setClearNameVisible}
-          setClearTypeVisible={setClearTypeVisible}
-          onSearch={onNewSearchHandler}
-          onPress={outsidePressHandler}
-        />
+        <SearchBar>
+        <SearchField
+            placeholder="Name"
+            focusedHandler={focusedHandler}
+            showSearchButton={showSearchButton}
+            searchInputValue={searchNameValue}
+            searchOppositeValue={searchTypeValue}
+            setSearchInputValue={setSearchNameValue}
+            setSearchedInputValue={setSearchedNameValue}
+            clearInputVisible={clearNameVisible}
+            setClearInputVisible={setClearNameVisible}
+            onSearch={onNewSearchHandler}
+            onPressHandler={onPressHandler}
+          />
+          <SearchField
+            placeholder="Type"
+            focusedHandler={focusedHandler}
+            showSearchButton={showSearchButton}
+            searchInputValue={searchTypeValue}
+            searchOppositeValue={searchNameValue}
+            setSearchInputValue={setSearchTypeValue}
+            setSearchedInputValue={setSearchedTypeValue}
+            clearInputVisible={clearTypeVisible}
+            setClearInputVisible={setClearTypeVisible}
+            onSearch={onNewSearchHandler}
+            onPressHandler={onPressHandler}
+          />
+        </SearchBar>
         {fetching ? <Text>Loading ...</Text> : null}
+        <ResultsText
+          searchNameValue={searchNameValue}
+          searchedNameValue={searchedNameValue}
+          searchTypeValue={searchTypeValue}
+          searchedTypeValue={searchedTypeValue}
+        />
         {errorFlag ? (
           <Error />
         ) : (

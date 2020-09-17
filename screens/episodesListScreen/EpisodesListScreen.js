@@ -6,7 +6,7 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card} from '../../components';
+import {SearchBar, Card, ResultsText, SearchField} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -68,6 +68,13 @@ const EpisodesScreen = (props) => {
     setSearchButton(false);
   };
 
+  const onPressHandler = () => {
+    if (searchNameValue.length > 2) {
+      outsidePressHandler();
+      onNewSearchHandler();
+    }
+  };
+
   const renderListItem = (itemData) => {
     const {name, episode} = itemData.item;
     return (
@@ -90,24 +97,28 @@ const EpisodesScreen = (props) => {
 
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <SearchBar
-          showSearchButton={showSearchButton}
-          focusedHandler={focusedHandler}
-          searchNameValue={searchNameValue}
-          setSearchedNameValue={setSearchedNameValue}
-          setSearchNameValue={setSearchNameValue}
-          clearNameVisible={clearNameVisible}
-          setClearNameVisible={setClearNameVisible}
-          episodes={true}
-          onPress={outsidePressHandler}
-          onSearch={onNewSearchHandler}
-        />
-        <Text>
-          {searchedNameValue !== ''
-            ? `Results for the search: Name : ${searchedNameValue}`
-            : null}
-        </Text>
+        <SearchBar>
+          <SearchField 
+            placeholder="Name"
+            focusedHandler={focusedHandler}
+            showSearchButton={showSearchButton}
+            searchInputValue={searchNameValue}
+            searchOppositeValue={''}
+            setSearchInputValue={setSearchNameValue}
+            setSearchedInputValue={setSearchedNameValue}
+            clearInputVisible={clearNameVisible}
+            setClearInputVisible={setClearNameVisible}
+            onSearch={onNewSearchHandler}
+            onPressHandler={onPressHandler}
+          />
+        </SearchBar>
         {fetching ? <Text>Loading ...</Text> : null}
+        <ResultsText
+          searchNameValue={searchNameValue}
+          searchedNameValue={searchedNameValue}
+          searchTypeValue={''}
+          searchedTypeValue={''}
+        />
         <FlatList
           data={arrayEpisodes}
           onEndReachedThreshold={2}

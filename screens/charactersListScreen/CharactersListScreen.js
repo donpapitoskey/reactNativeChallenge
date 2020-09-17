@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -60,7 +60,6 @@ const CharactersScreen = (props) => {
   };
 
   const onPageRequestHandler = () => {
-    console.log(maxPagesValue);
 
     if (searchingPageValue < maxPagesValue) {
       const newPage = searchingPageValue + 1;
@@ -105,7 +104,7 @@ const CharactersScreen = (props) => {
       <View style={styles.screen}>
         <SearchBar>
           <SearchField
-            thePlaceholder="Name"
+            placeholder="Name"
             focusedHandler={focusedHandler}
             showSearchButton={showSearchButton}
             searchInputValue={searchNameValue}
@@ -118,7 +117,7 @@ const CharactersScreen = (props) => {
             onPressHandler={onPressHandler}
           />
           <SearchField
-            thePlaceholder="Type"
+            placeholder="Type"
             focusedHandler={focusedHandler}
             showSearchButton={showSearchButton}
             searchInputValue={searchTypeValue}
@@ -140,12 +139,12 @@ const CharactersScreen = (props) => {
           searchedTypeValue={searchedTypeValue}
         />
         {errorFlag ? <Text>HOHOHO</Text> :<FlatList
-          data={arrayChars}
-          keyExtractor={(item, index) => item.id}
-          renderItem={renderListItem}
-          numColumns={1}
-          onEndReached={onPageRequestHandler}
-          onEndReachedThreshold={2}
+            data={arrayChars}
+            keyExtractor={(item, index) => item.id}
+            renderItem={renderListItem}
+            numColumns={1}
+            onEndReached={onPageRequestHandler}
+            onEndReachedThreshold={2}
         />}
         {fetching ? <Text>Loading ...</Text> : null}
 
