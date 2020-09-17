@@ -26,9 +26,6 @@ const CharactersScreen = (props) => {
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
-  const nameRef = useRef('');
-  const typeRef = useRef('');
-
   const focusedHandler = () => {
     setSearchButton(true);
   };
@@ -78,29 +75,6 @@ const CharactersScreen = (props) => {
     setSearchButton(false);
   };
 
-  
-  const nameCancelButtonPressedHandler = () => {
-    nameRef.current.clear();
-    nameRef.current = '';
-    setSearchNameValue('');
-    setClearNameVisible(false);
-    if (searchTypeValue.length > 2) {
-      setSearchedNameValue('');
-      onNewSearchHandler();
-    }
-  };
-
-  const typeCancelButtonPressedHandler = () => {
-    typeRef.current.clear();
-    typeRef.current = '';
-    setSearchTypeValue('');
-    setClearTypeVisible(false);
-    if (searchNameValue.length > 2) {
-      setSearchedTypeValue('');
-      onNewSearchHandler();
-    }
-  };
-
   const onPressHandler = () => {
     if (searchNameValue.length > 2 || searchTypeValue.length > 2) {
       outsidePressHandler();
@@ -129,21 +103,7 @@ const CharactersScreen = (props) => {
   return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <SearchBar
-          showSearchButton={showSearchButton}
-          focusedHandler={focusedHandler}
-          searchNameValue={searchNameValue}
-          searchTypeValue={searchTypeValue}
-          setSearchNameValue={setSearchNameValue}
-          setSearchTypeValue={setSearchTypeValue}
-          setSearchedNameValue={setSearchedNameValue}
-          setSearchedTypeValue={setSearchedTypeValue}
-          clearNameVisible={clearNameVisible}
-          clearTypeVisible={clearTypeVisible}
-          setClearNameVisible={setClearNameVisible}
-          setClearTypeVisible={setClearTypeVisible}
-          onSearch={onNewSearchHandler}
-          onPress={outsidePressHandler}>
+        <SearchBar>
           <SearchField
             thePlaceholder="Name"
             focusedHandler={focusedHandler}
@@ -170,7 +130,6 @@ const CharactersScreen = (props) => {
             onSearch={onNewSearchHandler}
             onPressHandler={onPressHandler}
           />
-
         </SearchBar>
 
         {fetching ? <Text>Loading ...</Text> : null}
