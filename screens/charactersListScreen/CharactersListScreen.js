@@ -6,12 +6,13 @@ import {
   View,
   FlatList,
 } from 'react-native';
+import {SearchBar, Card} from '../../components';
 import client from '../../services/apollo';
-import {Card, SearchBar} from '../../components';
 import Query from '../../services/queries';
 import styles from './styles';
 
 const CharactersScreen = (props) => {
+
   const [arrayChars, setArrayCharsValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
@@ -59,8 +60,11 @@ const CharactersScreen = (props) => {
   };
 
   const onPageRequestHandler = () => {
+    console.log(maxPagesValue);
+
     if (searchingPageValue < maxPagesValue) {
       const newPage = searchingPageValue + 1;
+      console.log(newPage);
       onSearchHandler(newPage, arrayChars);
       setSearchingPage(newPage);
     }
@@ -71,8 +75,9 @@ const CharactersScreen = (props) => {
     setSearchButton(false);
   };
 
+
   const renderListItem = (itemData) => {
-    const {name, image} = itemData.item;
+    const {image, name} = itemData.item;
     return (
       <Card
         name={name}
@@ -99,6 +104,8 @@ const CharactersScreen = (props) => {
           searchTypeValue={searchTypeValue}
           setSearchNameValue={setSearchNameValue}
           setSearchTypeValue={setSearchTypeValue}
+          setSearchedNameValue={setSearchedNameValue}
+          setSearchedTypeValue={setSearchedTypeValue}
           clearNameVisible={clearNameVisible}
           clearTypeVisible={clearTypeVisible}
           setClearNameVisible={setClearNameVisible}
@@ -106,12 +113,19 @@ const CharactersScreen = (props) => {
           onSearch={onNewSearchHandler}
           onPress={outsidePressHandler}
         />
+        {fetching ? <Text>Loading ...</Text> : null}
         <Text>
-          {searchedNameValue !== ''
-            ? `Results for the search: Name : ${searchedNameValue}`
+          {' '}
+          {searchNameValue.length > 2 && searchTypeValue.length < 1
+            ? `Results for search: Name = "${searchedNameValue}"`
+            : null}
+          {searchTypeValue.length > 2 && searchNameValue.length < 1
+            ? `Results for search: Type = "${searchedTypeValue}"`
+            : null}
+          {searchTypeValue.length > 2 && searchNameValue.length > 2
+            ? `Results for search: Name = "${searchedNameValue}" Type = "${searchedTypeValue}"`
             : null}
         </Text>
-        {fetching ? <Text>Loading ...</Text> : null}
         <FlatList
           data={arrayChars}
           keyExtractor={(item, index) => item.id}
@@ -121,6 +135,7 @@ const CharactersScreen = (props) => {
           onEndReachedThreshold={2}
         />
         {fetching ? <Text>Loading ...</Text> : null}
+
       </View>
     </TouchableWithoutFeedback>
   );

@@ -7,9 +7,11 @@ const SearchBar = (props) => {
     focusedHandler,
     showSearchButton,
     searchNameValue,
+    searchTypeValue,
     setSearchTypeValue,
     setSearchNameValue,
     setSearchedNameValue,
+    setSearchedTypeValue,
     clearNameVisible,
     clearTypeVisible,
     setClearNameVisible,
@@ -19,8 +21,8 @@ const SearchBar = (props) => {
     onSearch,
   } = props;
 
-  const nameRef = useRef();
-  const typeRef = useRef();
+  const nameRef = useRef('');
+  const typeRef = useRef('');
 
   const onNameChangeHandler = (text) => {
     setSearchNameValue(text);
@@ -29,35 +31,51 @@ const SearchBar = (props) => {
     } else {
       setClearNameVisible(false);
     }
+    if (text.length > 2) {
+      setSearchedNameValue(text);
+      onSearch();
+    }
   };
   const onTypeChangeHandler = (text) => {
     setSearchTypeValue(text);
-    if (text.length > 2) {
+    if (text.length > 0) {
       setClearTypeVisible(true);
     } else {
       setClearTypeVisible(false);
     }
+    if (text.length > 2){
+      setSearchedTypeValue(text);
+      onSearch();
+    }
+
   };
 
-  const nameCancelButtonPressedHandler = (event) => {
+  const nameCancelButtonPressedHandler = () => {
     nameRef.current.clear();
     nameRef.current = '';
     setSearchNameValue(nameRef.current);
     setClearNameVisible(false);
+    if (searchTypeValue.length > 2) {
+      onSearch();
+      setSearchedNameValue('');
+    }
   };
 
-  const typeCancelButtonPressedHandler = (event) => {
+  const typeCancelButtonPressedHandler = () => {
     typeRef.current.clear();
     typeRef.current = '';
-    setSearchTypeValue(typeRef.current);
+    setSearchTypeValue(typeRef.current.value);
     setClearTypeVisible(false);
+    if (searchNameValue.length > 2) {
+      onSearch();
+      setSearchedTypeValue('');
+    }
   };
 
   const onPressHandler = () => {
     if (searchNameValue.length > 2) {
       onPress();
       onSearch();
-      setSearchedNameValue(searchNameValue);
     }
   };
 
@@ -65,12 +83,13 @@ const SearchBar = (props) => {
     <View style={styles.header}>
       <View style={styles.container}>
         <View style={styles.search}>
-          {showSearchButton ? 
+          {showSearchButton ? (
             <IconButton name="search" onPressAction={onPressHandler} />
-           : null}
+          ) : null}
           <TextInput
             style={styles.text}
             ref={nameRef}
+            value={searchNameValue}
             placeholder={nameRef.length < 1 ? null : 'Name...'}
             onFocus={focusedHandler}
             onChangeText={onNameChangeHandler}
@@ -82,7 +101,7 @@ const SearchBar = (props) => {
               name="close-sharp"
               onPressAction={nameCancelButtonPressedHandler}
             />
-          ): null}
+          ) : null}
         </View>
       </View>
       {episodes ? null : (

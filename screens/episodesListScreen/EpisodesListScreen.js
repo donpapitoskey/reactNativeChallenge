@@ -47,7 +47,6 @@ const EpisodesScreen = (props) => {
         setErrorFlag(true);
         setFetchingValue(false);
       });
-
   };
   
   const onNewSearchHandler = (event) => {
