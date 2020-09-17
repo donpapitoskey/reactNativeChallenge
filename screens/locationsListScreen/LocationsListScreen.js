@@ -1,105 +1,100 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { TouchableWithoutFeedback, Keyboard, Text, View, StyleSheet, Button, FlatList } from 'react-native';
-import SearchBar from '../components/SearchBar';
-import client from '../services/apollo';
-import Card from '../components/Card';
-import Query from '../services/queries';
+import React, {useState} from 'react';
+import {
+  TouchableWithoutFeedback,
+  Keyboard,
+  Text,
+  View,
+  FlatList,
+} from 'react-native';
+import {SearchBar, Card} from '../../components';
+import client from '../../services/apollo';
+import Query from '../../services/queries';
+import styles from './styles';
 
+const LocationsScreen = (props) => {
 
-const CharactersScreen = (props) => {
-
-  const [arrayChars, setArrayCharsValue] = useState([]);
+  const [arrayLocations, setArrayLocationsValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
   const [searchNameValue, setSearchNameValue] = useState('');
+  const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
+  const [errorFlag, setErrorFlag] = useState(false);
 
-
-
-
-  const focusedHandler = event => {
+  const focusedHandler = () => {
     setSearchButton(true);
   };
 
-
-
-  useEffect(() => {
-
-  }, [showSearchButton]);
-
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
-    client.query({
-      query:
-        Query({
-          typeOfSearch: "characters",
+    client
+      .query({
+        query: Query({
+          typeOfSearch: 'locations',
           searchingPage: newpage,
           searchName: searchNameValue,
           searchType: searchTypeValue
-        }
-        )
-      ,
-    })
-      .then(({ data }) => {
-        setMaxPageValue(data.characters.info.pages);
-        setArrayCharsValue(arrayOp.concat(data.characters.results));
+        }),
+      })
+      .then(({data}) => {
+        setErrorFlag(false);
+        setMaxPageValue(data.locations.info.pages);
+        setArrayLocationsValue(arrayOp.concat(data.locations.results));
         setFetchingValue(false);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setErrorFlag(true);
         setFetchingValue(false);
       });
-  }
+  };
 
-  const onNewSearchHandler = (event) => {
-    setArrayCharsValue([]);
+  const onNewSearchHandler = () => {
+    setArrayLocationsValue([]);
     setSearchingPage(1);
-    outsidePressHandler();
     onSearchHandler(1, []);
   };
 
-  const onPageRequestHandler = event => {
-    console.log(maxPagesValue);
+  const onPageRequestHandler = () => {
 
     if (searchingPageValue < maxPagesValue) {
       const newPage = searchingPageValue + 1;
-      console.log(newPage);
-      onSearchHandler(newPage, arrayChars);
+      onSearchHandler(newPage, arrayLocations);
       setSearchingPage(newPage);
     }
   };
 
-  const outsidePressHandler = event => {
+  const outsidePressHandler = () => {
     Keyboard.dismiss();
     setSearchButton(false);
   };
 
-
-  const renderListItem = itemData => {
-    const { image, name, } = itemData.item;
-    
+  const renderListItem = (itemData) => {
+    const {name, dimension} = itemData.item;
     return (
       <Card
         name={name}
-        image={image}
+        dimension={dimension}
         onSelect={() => {
           props.navigation.navigate({
             routeName: 'Details',
             params: {
-              item: itemData.item
+              item: itemData.item,
             }
-          })
+          });
         }}
       />
     );
   };
 
-  return (
+  const Error = () => {
+    return <Text> Sorry Morty</Text>;
+  }
 
+  return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
         <SearchBar
@@ -108,38 +103,32 @@ const CharactersScreen = (props) => {
           searchNameValue={searchNameValue}
           searchTypeValue={searchTypeValue}
           setSearchNameValue={setSearchNameValue}
+          setSearchedNameValue={setSearchedNameValue}
           setSearchTypeValue={setSearchTypeValue}
           clearNameVisible={clearNameVisible}
           clearTypeVisible={clearTypeVisible}
           setClearNameVisible={setClearNameVisible}
           setClearTypeVisible={setClearTypeVisible}
-          onPress={onNewSearchHandler}
-        />
-        <Button title="get query" onPress={onNewSearchHandler} />
-        <Text>Characters Screen</Text>
-        {fetching ? <Text>Loading ...</Text> : null}
-        <FlatList
-          data={arrayChars}
-          keyExtractor={(item, index) => item.id}
-          renderItem={renderListItem}
-          numColumns={1}
-          onEndReached={onPageRequestHandler}
-          onEndReachedThreshold={2}
+          onSearch={onNewSearchHandler}
+          onPress={outsidePressHandler}
         />
         {fetching ? <Text>Loading ...</Text> : null}
-
+        {errorFlag ? (
+          <Error />
+        ) : (
+          <FlatList
+            data={arrayLocations}
+            onEndReachedThreshold={2}
+            keyExtractor={(item, index) => item.name}
+            renderItem={renderListItem}
+            onEndReached={onPageRequestHandler}
+            numColumns={1}
+          />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center'
+export default LocationsScreen;
 
-  },
-});
-
-export default CharactersScreen;

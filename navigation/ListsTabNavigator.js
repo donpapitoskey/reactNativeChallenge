@@ -1,32 +1,28 @@
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import CharactersScreen from '../screens/CharactersListScreen';
-import LocationsScreen from '../screens/LocationsListScreen';
-import EpisodesScreen from '../screens/EpisodesListScreen';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+import {
+  CharactersListScreen,
+  LocationsListScreen,
+  EpisodesListScreen,
+} from '../screens';
 
 
-const ListsTabNavigator = createBottomTabNavigator({
-    Characters: { screen: CharactersScreen },
-    Locations: { screen: LocationsScreen },
-    Episodes: { screen: EpisodesScreen }
-},
-{
-  navigationOptions: {
-    swipeEnabled: true
-
+const ListsTabNavigator = createMaterialTopTabNavigator(
+  {
+    Characters: {screen: CharactersListScreen},
+    Locations: {screen: LocationsListScreen},
+    Episodes: {screen: EpisodesListScreen},
   },
-  tabBarOptions: {
+  { 
+    tabBarPosition: 'bottom',
     swipeEnabled: true,
-    activeTintColor: "#8bcf21",
-    style:{
-      alignItems:"center"
+    tabBarOptions: {
+      activeTintColor: '#8bcf21',
+      inactiveTintColor: 'black',
+      pressColor: 'gray',
+      style: {
+        backgroundColor: '#8bcf21',
+      }
     },
-    inactiveTintColor: "grey",
-    showLabel: true
   },
-  animationEnabled: true
-}
 );
-
-
-
 export default ListsTabNavigator;
