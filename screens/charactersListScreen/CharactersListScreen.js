@@ -116,14 +116,19 @@ const CharactersScreen = (props) => {
         {fetching ? <Text>Loading ...</Text> : null}
         <Text>
           {' '}
-          {searchNameValue.length > 2 && searchTypeValue.length < 1
+          {searchedNameValue.length > 2 && searchTypeValue.length < 1
             ? `Results for search: Name = "${searchedNameValue}"`
             : null}
-          {searchTypeValue.length > 2 && searchNameValue.length < 1
+          {searchedTypeValue.length > 2 && searchNameValue.length < 1
             ? `Results for search: Type = "${searchedTypeValue}"`
             : null}
-          {searchTypeValue.length > 2 && searchNameValue.length > 2
-            ? `Results for search: Name = "${searchedNameValue}" Type = "${searchedTypeValue}"`
+          {searchedTypeValue.length > 2 && searchNameValue.length > 1
+            ? `Results for search: Name = "${searchedNameValue}" Type = "${searchTypeValue}"`
+            : null}
+          {searchedNameValue.length > 2 &&
+          searchTypeValue.length > 1 &&
+          searchedTypeValue.length < 2
+            ? `Results for search: Name = "${searchNameValue}" Type = "${searchedTypeValue}"`
             : null}
         </Text>
         <FlatList

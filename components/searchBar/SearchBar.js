@@ -31,7 +31,7 @@ const SearchBar = (props) => {
     } else {
       setClearNameVisible(false);
     }
-    if (text.length > 2) {
+    if (text.length > 2 || searchTypeValue.length > 2) {
       setSearchedNameValue(text);
       onSearch();
     }
@@ -43,7 +43,7 @@ const SearchBar = (props) => {
     } else {
       setClearTypeVisible(false);
     }
-    if (text.length > 2){
+    if (text.length > 2 || searchNameValue.length > 2){
       setSearchedTypeValue(text);
       onSearch();
     }
@@ -53,27 +53,27 @@ const SearchBar = (props) => {
   const nameCancelButtonPressedHandler = () => {
     nameRef.current.clear();
     nameRef.current = '';
-    setSearchNameValue(nameRef.current);
+    setSearchNameValue('');
     setClearNameVisible(false);
     if (searchTypeValue.length > 2) {
-      onSearch();
       setSearchedNameValue('');
+      onSearch();
     }
   };
 
   const typeCancelButtonPressedHandler = () => {
     typeRef.current.clear();
     typeRef.current = '';
-    setSearchTypeValue(typeRef.current.value);
+    setSearchTypeValue('');
     setClearTypeVisible(false);
     if (searchNameValue.length > 2) {
-      onSearch();
       setSearchedTypeValue('');
+      onSearch();
     }
   };
 
   const onPressHandler = () => {
-    if (searchNameValue.length > 2) {
+    if (searchNameValue.length > 2 || searchTypeValue.length > 2) {
       onPress();
       onSearch();
     }
