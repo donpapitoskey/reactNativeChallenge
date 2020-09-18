@@ -1,17 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState, useRef } from 'react';
 import {
+  Animated,
   TouchableWithoutFeedback,
   Keyboard,
   Text,
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card, ResultsText, SearchField} from '../../components';
+import { SearchBar, Card, ResultsText, SearchField } from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
 
 const EpisodesScreen = (props) => {
+
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const [arrayEpisodes, setArrayEpisodesValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
@@ -37,7 +40,7 @@ const EpisodesScreen = (props) => {
           searchName: searchNameValue,
         })
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setErrorFlag(false);
         setMaxPageValue(data.episodes.info.pages);
         setArrayEpisodesValue(arrayOp.concat(data.episodes.results));
@@ -48,7 +51,7 @@ const EpisodesScreen = (props) => {
         setFetchingValue(false);
       });
   };
-  
+
   const onNewSearchHandler = (event) => {
     setArrayEpisodesValue([]);
     setSearchingPage(1);
@@ -76,7 +79,7 @@ const EpisodesScreen = (props) => {
   };
 
   const renderListItem = (itemData) => {
-    const {name, episode} = itemData.item;
+    const { name, episode } = itemData.item;
     return (
       <Card
         name={name}
@@ -97,36 +100,65 @@ const EpisodesScreen = (props) => {
 
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <SearchBar>
-          <SearchField 
-            placeholder="Name"
-            focusedHandler={focusedHandler}
-            showSearchButton={showSearchButton}
-            searchInputValue={searchNameValue}
-            searchOppositeValue={''}
-            setSearchInputValue={setSearchNameValue}
-            setSearchedInputValue={setSearchedNameValue}
-            clearInputVisible={clearNameVisible}
-            setClearInputVisible={setClearNameVisible}
-            onSearch={onNewSearchHandler}
-            onPressHandler={onPressHandler}
+        <Animated.View
+          style={{
+            ...styles.screen,
+            transform: [
+              {
+                translateY: scrollY.interpolate({
+                  inputRange: [0, 100, 101],
+                  outputRange: [0, -100, -100],
+                }),
+              },
+            ],
+          }}>
+          <SearchBar>
+            <SearchField
+              placeholder="Name"
+              focusedHandler={focusedHandler}
+              showSearchButton={showSearchButton}
+              searchInputValue={searchNameValue}
+              searchOppositeValue={''}
+              setSearchInputValue={setSearchNameValue}
+              setSearchedInputValue={setSearchedNameValue}
+              setSearchedOppositeValue={() => { }}
+              clearInputVisible={clearNameVisible}
+              setClearInputVisible={setClearNameVisible}
+              onSearch={onNewSearchHandler}
+              onPressHandler={onPressHandler}
+            />
+          </SearchBar>
+          {fetching ? <Text>Loading ...</Text> : null}
+          <ResultsText
+            searchNameValue={searchNameValue}
+            searchedNameValue={searchedNameValue}
+            searchTypeValue={''}
+            searchedTypeValue={''}
           />
-        </SearchBar>
-        {fetching ? <Text>Loading ...</Text> : null}
-        <ResultsText
-          searchNameValue={searchNameValue}
-          searchedNameValue={searchedNameValue}
-          searchTypeValue={''}
-          searchedTypeValue={''}
-        />
-        <FlatList
-          data={arrayEpisodes}
-          onEndReachedThreshold={2}
-          keyExtractor={(item, index) => item.id}
-          renderItem={renderListItem}
-          numColumns={1}
-          onEndReached={onPageRequestHandler}
-        />
+          <View>
+            <FlatList
+              data={arrayEpisodes}
+              onEndReachedThreshold={2}
+              keyExtractor={(item, index) => item.id}
+              renderItem={renderListItem}
+              numColumns={1}
+              onEndReached={onPageRequestHandler}
+              onScroll={Animated.event([
+                  {
+                    nativeEvent: {
+                      contentOffset: {
+                        y: scrollY,
+                      },
+                    },
+                  },
+                ],
+                {
+                  useNativeDriver: false,
+                }
+              )}
+            />
+          </View>
+        </Animated.View>
       </View>
     </TouchableWithoutFeedback>
   );

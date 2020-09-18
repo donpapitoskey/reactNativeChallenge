@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState, useRef } from 'react';
 import {
+  Animated,
   TouchableWithoutFeedback,
   Keyboard,
   Text,
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card, ResultsText, SearchField} from '../../components';
+import { SearchBar, Card, ResultsText, SearchField } from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -26,6 +27,9 @@ const LocationsScreen = (props) => {
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+
   const focusedHandler = () => {
     setSearchButton(true);
   };
@@ -41,7 +45,7 @@ const LocationsScreen = (props) => {
           searchType: searchTypeValue
         }),
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setErrorFlag(false);
         setMaxPageValue(data.locations.info.pages);
         setArrayLocationsValue(arrayOp.concat(data.locations.results));
@@ -81,7 +85,7 @@ const LocationsScreen = (props) => {
   };
 
   const renderListItem = (itemData) => {
-    const {name, dimension} = itemData.item;
+    const { name, dimension } = itemData.item;
     return (
       <Card
         name={name}
@@ -99,59 +103,89 @@ const LocationsScreen = (props) => {
   };
 
   const Error = () => {
-    return <Text> Sorry Morty</Text>;
+    return <Text>Sorry Morty, we could not meet that criteria :(</Text>;
   }
 
   return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <SearchBar>
-        <SearchField
-            placeholder="Name"
-            focusedHandler={focusedHandler}
-            showSearchButton={showSearchButton}
-            searchInputValue={searchNameValue}
-            searchOppositeValue={searchTypeValue}
-            setSearchInputValue={setSearchNameValue}
-            setSearchedInputValue={setSearchedNameValue}
-            clearInputVisible={clearNameVisible}
-            setClearInputVisible={setClearNameVisible}
-            onSearch={onNewSearchHandler}
-            onPressHandler={onPressHandler}
+        <Animated.View
+          style={{
+            ...styles.screen,
+            transform: [
+              {
+                translateY: scrollY.interpolate({
+                  inputRange: [0, 100, 101],
+                  outputRange: [0, -100, -100],
+                }),
+              },
+            ],
+          }}>
+          <SearchBar>
+            <SearchField
+              placeholder="Name"
+              focusedHandler={focusedHandler}
+              showSearchButton={showSearchButton}
+              searchInputValue={searchNameValue}
+              searchOppositeValue={searchTypeValue}
+              setSearchInputValue={setSearchNameValue}
+              setSearchedInputValue={setSearchedNameValue}
+              setSearchedOppositeValue={setSearchedTypeValue}
+              clearInputVisible={clearNameVisible}
+              setClearInputVisible={setClearNameVisible}
+              onSearch={onNewSearchHandler}
+              onPressHandler={onPressHandler}
+            />
+            <SearchField
+              placeholder="Type"
+              focusedHandler={focusedHandler}
+              showSearchButton={showSearchButton}
+              searchInputValue={searchTypeValue}
+              searchOppositeValue={searchNameValue}
+              setSearchInputValue={setSearchTypeValue}
+              setSearchedInputValue={setSearchedTypeValue}
+              clearInputVisible={clearTypeVisible}
+              setClearInputVisible={setClearTypeVisible}
+              onSearch={onNewSearchHandler}
+              onPressHandler={onPressHandler}
+            />
+          </SearchBar>
+          {fetching ? <Text>Loading ...</Text> : null}
+          <ResultsText
+            searchNameValue={searchNameValue}
+            searchedNameValue={searchedNameValue}
+            searchTypeValue={searchTypeValue}
+            searchedTypeValue={searchedTypeValue}
           />
-          <SearchField
-            placeholder="Type"
-            focusedHandler={focusedHandler}
-            showSearchButton={showSearchButton}
-            searchInputValue={searchTypeValue}
-            searchOppositeValue={searchNameValue}
-            setSearchInputValue={setSearchTypeValue}
-            setSearchedInputValue={setSearchedTypeValue}
-            clearInputVisible={clearTypeVisible}
-            setClearInputVisible={setClearTypeVisible}
-            onSearch={onNewSearchHandler}
-            onPressHandler={onPressHandler}
-          />
-        </SearchBar>
-        {fetching ? <Text>Loading ...</Text> : null}
-        <ResultsText
-          searchNameValue={searchNameValue}
-          searchedNameValue={searchedNameValue}
-          searchTypeValue={searchTypeValue}
-          searchedTypeValue={searchedTypeValue}
-        />
-        {errorFlag ? (
-          <Text>HOHOHO</Text>
-        ) : (
-          <FlatList
-            data={arrayLocations}
-            onEndReachedThreshold={2}
-            keyExtractor={(item, index) => item.name}
-            renderItem={renderListItem}
-            onEndReached={onPageRequestHandler}
-            numColumns={1}
-          />
-        )}
+          <View>
+            {errorFlag ? (
+              <Text>HOHOHO</Text>
+            ) : (
+              <FlatList
+                data={arrayLocations}
+                keyExtractor={(item, index) => item.id}
+                renderItem={renderListItem}
+                numColumns={1}
+                onEndReached={onPageRequestHandler}
+                onEndReachedThreshold={2}
+                onScroll={Animated.event(
+                  [
+                    {
+                      nativeEvent: {
+                        contentOffset: {
+                          y: scrollY,
+                        },
+                      },
+                    },
+                  ],
+                  {
+                    useNativeDriver: false,
+                  },
+                )}
+              />
+            )}
+          </View>
+        </Animated.View>
       </View>
     </TouchableWithoutFeedback>
   );

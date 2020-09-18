@@ -128,7 +128,7 @@ const CharactersScreen = (props) => {
               searchOppositeValue={searchTypeValue}
               setSearchInputValue={setSearchNameValue}
               setSearchedInputValue={setSearchedNameValue}
-              setSearchedOppositevalue={setSearchedTypeValue}
+              setSearchedOppositeValue={setSearchedTypeValue}
               clearInputVisible={clearNameVisible}
               setClearInputVisible={setClearNameVisible}
               onSearch={onNewSearchHandler}
@@ -142,14 +142,13 @@ const CharactersScreen = (props) => {
               searchOppositeValue={searchNameValue}
               setSearchInputValue={setSearchTypeValue}
               setSearchedInputValue={setSearchedTypeValue}
-              setSearchedOppositevalue={setSearchedNameValue}
+              setSearchedOppositeValue={setSearchedNameValue}
               clearInputVisible={clearTypeVisible}
               setClearInputVisible={setClearTypeVisible}
               onSearch={onNewSearchHandler}
               onPressHandler={onPressHandler}
             />
           </SearchBar>
-
           {fetching ? <Text>Loading ...</Text> : null}
           <ResultsText
             searchNameValue={searchNameValue}
@@ -177,8 +176,10 @@ const CharactersScreen = (props) => {
                       },
                     },
                   ],
-                )
-              }
+                  {
+                    useNativeDriver: false,
+                  }
+                )}
               />
             )}
           </View>
