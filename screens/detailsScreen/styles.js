@@ -11,7 +11,4 @@ export default StyleSheet.create({
     height: '90%',
     resizeMode: 'contain',
   },
-  text: {
-    fontSize: 24,
-  },
 });

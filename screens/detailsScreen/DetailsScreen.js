@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, Text, View, Image} from 'react-native';
-import {MiniCard} from '../../components';
+import {MiniCard, NestedText} from '../../components';
 import styles from './styles';
 
 const DetailsScreen = (props) => {
@@ -25,21 +25,31 @@ const DetailsScreen = (props) => {
   return (
     <View style={styles.screen}>
       {image ? <Image style={styles.image} source={{uri: image}} /> : null}
-      <Text style={styles.title}>{name}</Text>
-      {dimension ? <Text style={styles.subTitle}>{dimension}</Text> : null}
-      {episode ? <Text style={styles.subTitle}>{episode} </Text> : null}
-      {type ? <Text style={styles.subTitle}>{type} </Text> : null}
-      {gender ? <Text style={styles.subTitle}>{gender} </Text> : null}
-      {species ? <Text style={styles.subTitle}>{species} </Text> : null}
-      {created ? <Text style={styles.subTitle}>{created} </Text> : null}
-      <View style={{height: 600}}>
-        <FlatList
-          data={episode ? characters.slice(0, 5) : residents.slice(0, 5)}
-          keyExtractor={(item, index) => item.id}
-          renderItem={renderListItem}
-          numColumns={1}
-        />
-      </View>
+      <NestedText reference="Name: ">{name}</NestedText>
+      {dimension ? (
+        <NestedText reference="Dimension: ">{dimension}</NestedText>
+      ) : null}
+      {episode ? (
+        <NestedText reference="Episode: ">{episode}</NestedText>
+      ) : null}
+      {type ? <NestedText reference="Type: ">{type}</NestedText> : null}
+      {gender ? <NestedText reference="Gender: ">{gender}</NestedText> : null}
+      {species ? (
+        <NestedText reference="Species: ">{species}</NestedText>
+      ) : null}
+      {created ? (
+        <NestedText reference="Created: ">{created}</NestedText>
+      ) : null}
+      {image ? null : (
+        <View style={{height: 600}}>
+          <FlatList
+            data={episode ? characters.slice(0, 5) : residents.slice(0, 5)}
+            keyExtractor={(item, index) => item.id}
+            renderItem={renderListItem}
+            numColumns={1}
+          />
+        </View>
+      )}
     </View>
   );
 }

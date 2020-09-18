@@ -6,7 +6,7 @@ export default StyleSheet.create({
     padding: 10,
     margin: 15,
     backgroundColor: '#EDF2F4',
-    height: Dimensions.get('window').height * 0.4,
+    maxHeight: Dimensions.get('window').height * 0.4,
     width: Dimensions.get('window').width * 0.6,
     borderWidth: 1,
     justifyContent: 'center',
