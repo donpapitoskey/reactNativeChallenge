@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState, useRef } from 'react';
 import {
+  PanResponder,
+  Animated,
   TouchableWithoutFeedback,
   Keyboard,
   Text,
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card, ResultsText, SearchField} from '../../components';
+import { SearchBar, Card, ResultsText, SearchField } from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -26,6 +28,9 @@ const CharactersScreen = (props) => {
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+
   const focusedHandler = () => {
     setSearchButton(true);
   };
@@ -41,7 +46,7 @@ const CharactersScreen = (props) => {
           searchType: searchTypeValue,
         })
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setErrorFlag(false);
         setMaxPageValue(data.characters.info.pages);
         setArrayCharsValue(arrayOp.concat(data.characters.results));
@@ -82,7 +87,7 @@ const CharactersScreen = (props) => {
   };
 
   const renderListItem = (itemData) => {
-    const {image, name} = itemData.item;
+    const { image, name } = itemData.item;
     return (
       <Card
         name={name}
@@ -102,52 +107,79 @@ const CharactersScreen = (props) => {
   return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <SearchBar>
-          <SearchField
-            placeholder="Name"
-            focusedHandler={focusedHandler}
-            showSearchButton={showSearchButton}
-            searchInputValue={searchNameValue}
-            searchOppositeValue={searchTypeValue}
-            setSearchInputValue={setSearchNameValue}
-            setSearchedInputValue={setSearchedNameValue}
-            clearInputVisible={clearNameVisible}
-            setClearInputVisible={setClearNameVisible}
-            onSearch={onNewSearchHandler}
-            onPressHandler={onPressHandler}
-          />
-          <SearchField
-            placeholder="Type"
-            focusedHandler={focusedHandler}
-            showSearchButton={showSearchButton}
-            searchInputValue={searchTypeValue}
-            searchOppositeValue={searchNameValue}
-            setSearchInputValue={setSearchTypeValue}
-            setSearchedInputValue={setSearchedTypeValue}
-            clearInputVisible={clearTypeVisible}
-            setClearInputVisible={setClearTypeVisible}
-            onSearch={onNewSearchHandler}
-            onPressHandler={onPressHandler}
-          />
-        </SearchBar>
+        <Animated.View style={{
+            transform: [
+              {
+                translateY: scrollY.interpolate({
+                  inputRange: [0, 100, 101],
+                  outputRange: [0, -100, -100],
+                }),
+              },
+            ],
+          }}>
+          <SearchBar>
+            <SearchField
+              placeholder="Name"
+              focusedHandler={focusedHandler}
+              showSearchButton={showSearchButton}
+              searchInputValue={searchNameValue}
+              searchOppositeValue={searchTypeValue}
+              setSearchInputValue={setSearchNameValue}
+              setSearchedInputValue={setSearchedNameValue}
+              setSearchedOppositevalue={setSearchedTypeValue}
+              clearInputVisible={clearNameVisible}
+              setClearInputVisible={setClearNameVisible}
+              onSearch={onNewSearchHandler}
+              onPressHandler={onPressHandler}
+            />
+            <SearchField
+              placeholder="Type"
+              focusedHandler={focusedHandler}
+              showSearchButton={showSearchButton}
+              searchInputValue={searchTypeValue}
+              searchOppositeValue={searchNameValue}
+              setSearchInputValue={setSearchTypeValue}
+              setSearchedInputValue={setSearchedTypeValue}
+              setSearchedOppositevalue={setSearchedNameValue}
+              clearInputVisible={clearTypeVisible}
+              setClearInputVisible={setClearTypeVisible}
+              onSearch={onNewSearchHandler}
+              onPressHandler={onPressHandler}
+            />
+          </SearchBar>
 
-        {fetching ? <Text>Loading ...</Text> : null}
-        <ResultsText
-          searchNameValue={searchNameValue}
-          searchedNameValue={searchedNameValue}
-          searchTypeValue={searchTypeValue}
-          searchedTypeValue={searchedTypeValue}
-        />
-        {errorFlag ? <Text>HOHOHO</Text> :<FlatList
-            data={arrayChars}
-            keyExtractor={(item, index) => item.id}
-            renderItem={renderListItem}
-            numColumns={1}
-            onEndReached={onPageRequestHandler}
-            onEndReachedThreshold={2}
-        />}
-        {fetching ? <Text>Loading ...</Text> : null}
-
+          {fetching ? <Text>Loading ...</Text> : null}
+          <ResultsText
+            searchNameValue={searchNameValue}
+            searchedNameValue={searchedNameValue}
+            searchTypeValue={searchTypeValue}
+            searchedTypeValue={searchedTypeValue}
+          />
+          <View>
+            {errorFlag ? (
+              <Text>HOHOHO</Text>
+            ) : (
+              <FlatList
+                data={arrayChars}
+                keyExtractor={(item, index) => item.id}
+                renderItem={renderListItem}
+                numColumns={1}
+                onEndReached={onPageRequestHandler}
+                onEndReachedThreshold={2}
+                onScroll={Animated.event([
+                  {
+                    nativeEvent: {
+                      contentOffset: {
+                        y: scrollY,
+                      },
+                    },
+                  },
+                ])}
+              />
+            )}
+          </View>
+          {fetching ? <Text>Loading ...</Text> : null}
+        </Animated.View>
       </View>
     </TouchableWithoutFeedback>
   );

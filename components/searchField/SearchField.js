@@ -13,6 +13,7 @@ const SearchField = (props) => {
     searchOppositeValue,
     setSearchInputValue,
     setSearchedInputValue,
+    setSearchedOppositevalue,
     clearInputVisible,
     setClearInputVisible,
     onSearch,
@@ -30,6 +31,7 @@ const SearchField = (props) => {
     }
     if (text.length > 2 || searchOppositeValue.length > 2) {
       setSearchedInputValue(text);
+      setSearchedOppositevalue(searchOppositeValue);
       onSearch();
     }
   };

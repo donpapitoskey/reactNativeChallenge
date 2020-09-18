@@ -141,7 +141,7 @@ const LocationsScreen = (props) => {
           searchedTypeValue={searchedTypeValue}
         />
         {errorFlag ? (
-          <Error />
+          <Text>HOHOHO</Text>
         ) : (
           <FlatList
             data={arrayLocations}
