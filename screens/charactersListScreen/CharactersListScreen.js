@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import {
-  PanResponder,
   Animated,
   TouchableWithoutFeedback,
   Keyboard,
@@ -8,7 +7,7 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import { SearchBar, Card, ResultsText, SearchField } from '../../components';
+import {SearchBar, Card, ResultsText, SearchField} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -29,7 +28,6 @@ const CharactersScreen = (props) => {
   const [errorFlag, setErrorFlag] = useState(false);
 
   const scrollY = useRef(new Animated.Value(0)).current;
-
 
   const focusedHandler = () => {
     setSearchButton(true);
@@ -86,8 +84,9 @@ const CharactersScreen = (props) => {
     }
   };
 
+
   const renderListItem = (itemData) => {
-    const { image, name } = itemData.item;
+    const {image, name} = itemData.item;
     return (
       <Card
         name={name}
@@ -104,10 +103,13 @@ const CharactersScreen = (props) => {
     );
   };
 
+
   return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
-        <Animated.View style={{
+        <Animated.View
+          style={{
+            ...styles.screen,
             transform: [
               {
                 translateY: scrollY.interpolate({
@@ -167,14 +169,16 @@ const CharactersScreen = (props) => {
                 onEndReached={onPageRequestHandler}
                 onEndReachedThreshold={2}
                 onScroll={Animated.event([
-                  {
-                    nativeEvent: {
-                      contentOffset: {
-                        y: scrollY,
+                    {
+                      nativeEvent: {
+                        contentOffset: {
+                          y: scrollY,
+                        },
                       },
                     },
-                  },
-                ])}
+                  ],
+                )
+              }
               />
             )}
           </View>
