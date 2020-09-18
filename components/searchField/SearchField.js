@@ -20,7 +20,7 @@ const SearchField = (props) => {
     onPressHandler,
   } = props;
 
-  const inputRef = useRef('');
+  let inputRef = useRef(placeholder);
 
   const onInputChangeHandler = (text) => {
     setSearchInputValue(text);
@@ -37,7 +37,8 @@ const SearchField = (props) => {
   };
 
   const inputCancelButtonPressedHandler = () => {
-    inputRef.current.clear();
+    inputRef.focus();
+    inputRef.clear();
     inputRef.current = '';
     setSearchInputValue('');
     setClearInputVisible(false);
@@ -55,7 +56,7 @@ const SearchField = (props) => {
         ) : null}
         <TextInput
           style={styles.text}
-          ref={inputRef}
+          ref={(input) => (inputRef = input)}
           value={searchInputValue}
           placeholder={inputRef.length < 1 ? null : `${placeholder}...`}
           onFocus={focusedHandler}

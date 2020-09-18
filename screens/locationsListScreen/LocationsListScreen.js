@@ -159,7 +159,7 @@ const LocationsScreen = (props) => {
           />
           <View>
             {errorFlag ? (
-              <Text>HOHOHO</Text>
+              <Error /> 
             ) : (
               <FlatList
                 data={arrayLocations}
