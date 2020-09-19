@@ -9,7 +9,7 @@
 import React from 'react';
 
 import AppNavigator from './navigation/AppNavigator';
-import { enableScreens } from 'react-native-screens';
+import {enableScreens} from 'react-native-screens';
 import client from './services/apollo';
 import {ApolloProvider} from '@apollo/client';
 
@@ -18,7 +18,7 @@ enableScreens();
 const App: () => React$Node = () => {
   return (
     <ApolloProvider client={client}>
-    <AppNavigator />
+      <AppNavigator />
     </ApolloProvider>
   );
 };

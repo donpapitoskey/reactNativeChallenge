@@ -7,4 +7,4 @@ const color = {
 
 export const theme = {
   color,
-}
+};

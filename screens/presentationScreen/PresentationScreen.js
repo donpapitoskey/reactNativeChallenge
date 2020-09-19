@@ -12,7 +12,7 @@ const PresentationScreen = (props) => {
         <Text style={{fontSize: 16}}>Juan J. Alarcon</Text>
       </View>
       <View>
-        <InitButton 
+        <InitButton
           style={styles.bottomItem}
           onPressAction={() => {
             props.navigation.replace('Lists');

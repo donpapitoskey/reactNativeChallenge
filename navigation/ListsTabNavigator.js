@@ -13,7 +13,7 @@ const ListsTabNavigator = createMaterialTopTabNavigator(
     Locations: {screen: LocationsListScreen},
     Episodes: {screen: EpisodesListScreen},
   },
-  { 
+  {
     tabBarPosition: 'bottom',
     swipeEnabled: true,
     tabBarOptions: {

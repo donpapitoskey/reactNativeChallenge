@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableNativeFeedback, Text} from 'react-native';
-import styles from './styles.js'
+import styles from './styles';
 
 const IconButton = (props) => {
 

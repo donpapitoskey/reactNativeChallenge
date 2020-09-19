@@ -4,7 +4,8 @@ import ListsTabNavigator from './ListsTabNavigator';
 import {DetailsScreen, PresentationScreen} from '../screens';
 import {theme} from '../styled/theme';
 
-const AppNavigator = createStackNavigator({
+const AppNavigator = createStackNavigator(
+  {
     Presentation: {
       screen: PresentationScreen,
       navigationOptions:{

@@ -2,6 +2,9 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {theme} from '../../styled/theme';
 
 export default StyleSheet.create({
+  touchable: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 10,

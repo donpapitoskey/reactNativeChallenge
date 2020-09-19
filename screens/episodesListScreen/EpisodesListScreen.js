@@ -177,5 +177,3 @@ const EpisodesScreen = (props) => {
 };
 
 export default EpisodesScreen;
-
-

@@ -30,7 +30,7 @@ const CharactersScreen = (props) => {
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
-  
+
   let searchNameVal = useRef('');
   let searchTypeVal = useRef('');
   let searchedNameVal = useRef('');
@@ -55,7 +55,7 @@ const CharactersScreen = (props) => {
           searchingPage: newpage,
           searchName: searchNameVal.current,
           searchType: searchTypeVal.current,
-        })
+        }),
       })
       .then(({data}) => {
         setErrorFlag(false);

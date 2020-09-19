@@ -7,7 +7,7 @@ const Card = (props) => {
 
   return (
     <View>
-      <TouchableNativeFeedback style={{flex: 1}} onPress={onSelect}>
+      <TouchableNativeFeedback style={styles.touchable} onPress={onSelect}>
         <View style={styles.container}>
           {image ? <Image style={styles.image} source={{uri: image}} /> : null}
           <Text>{name}</Text>

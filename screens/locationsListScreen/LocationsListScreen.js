@@ -57,7 +57,7 @@ const LocationsScreen = (props) => {
           searchType: searchTypeVal.current,
         }),
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         setErrorFlag(false);
         setMaxPageValue(data.locations.info.pages);
         setArrayLocationsValue(arrayOp.concat(data.locations.results));
@@ -102,12 +102,11 @@ const LocationsScreen = (props) => {
     if (acumulator.current > 115) {
       acumulator.current = 115;
     }
-    if (acumulator.current < 0 ) {
+    if (acumulator.current < 0) {
       acumulator.current = 0;
     }
     scrollY.setValue(acumulator.current);
   };
-
 
   const renderListItem = (itemData) => {
     const {name, dimension} = itemData.item;
@@ -120,7 +119,7 @@ const LocationsScreen = (props) => {
             routeName: 'Details',
             params: {
               item: itemData.item,
-            }
+            },
           });
         }}
       />
@@ -173,7 +172,7 @@ const LocationsScreen = (props) => {
           />
           <View>
             {errorFlag ? (
-              <Error /> 
+              <Error />
             ) : (
               <FlatList
                 data={arrayLocations}
@@ -196,4 +195,3 @@ const LocationsScreen = (props) => {
 };
 
 export default LocationsScreen;
-

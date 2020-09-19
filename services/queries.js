@@ -3,7 +3,7 @@ import {gql} from '@apollo/client';
 const Query = (props) => {
   const {typeOfSearch, searchingPage, searchName, searchType} = props;
   let searchCriteria = '';
-  let requestProps = ``;
+  let requestProps = '';
   switch (typeOfSearch) {
     case 'episodes':
       searchCriteria = `name: "${searchName}"`;
@@ -17,7 +17,7 @@ const Query = (props) => {
                         name
                         image
                     }
-                `
+                `;
       break;
     case 'locations':
       searchCriteria = `name: "${searchName}" type: "${searchType}"`;
@@ -43,7 +43,7 @@ const Query = (props) => {
                     type
                     image
           
-                `
+                `;
       break;
     default:
       searchCriteria = `name: "${searchName}" type: "${searchType}"`;
@@ -72,6 +72,6 @@ const Query = (props) => {
         }
     `;
   return query;
-}
+};
 
 export default Query;
