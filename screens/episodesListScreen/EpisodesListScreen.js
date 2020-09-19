@@ -18,6 +18,7 @@ const EpisodesScreen = (props) => {
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
   const [searchNameValue, setSearchNameValue] = useState('');
+  let searchNameVal = useRef('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
@@ -131,10 +132,11 @@ const EpisodesScreen = (props) => {
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
               searchInputValue={searchNameValue}
+              searchInputVal={searchNameVal}
               searchOppositeValue={''}
               setSearchInputValue={setSearchNameValue}
               setSearchedInputValue={setSearchedNameValue}
-              setSearchedOppositeValue={() => { }}
+              setSearchedOppositeValue={() => {}}
               clearInputVisible={clearNameVisible}
               setClearInputVisible={setClearNameVisible}
               onSearch={onNewSearchHandler}

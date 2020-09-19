@@ -18,6 +18,8 @@ const CharactersScreen = (props) => {
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
   const [searchNameValue, setSearchNameValue] = useState('');
+  let searchNameVal = useRef('');
+  let searchTypeVal = useRef('');
   const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchedTypeValue, setSearchedTypeValue] = useState('');
@@ -41,7 +43,7 @@ const CharactersScreen = (props) => {
         query: Query({
           typeOfSearch: 'characters',
           searchingPage: newpage,
-          searchName: searchNameValue,
+          searchName: searchNameVal.current,
           searchType: searchTypeValue,
         })
       })
@@ -135,7 +137,8 @@ const CharactersScreen = (props) => {
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
               searchInputValue={searchNameValue}
-              searchOppositeValue={searchTypeValue}
+              searchInputVal={searchNameVal}
+              searchOppositeValue={searchTypeVal}
               setSearchInputValue={setSearchNameValue}
               setSearchedInputValue={setSearchedNameValue}
               setSearchedOppositeValue={setSearchedTypeValue}
@@ -149,7 +152,8 @@ const CharactersScreen = (props) => {
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
               searchInputValue={searchTypeValue}
-              searchOppositeValue={searchNameValue}
+              searchInputVal={searchTypeVal}
+              searchOppositeValue={searchNameVal}
               setSearchInputValue={setSearchTypeValue}
               setSearchedInputValue={setSearchedTypeValue}
               setSearchedOppositeValue={setSearchedNameValue}

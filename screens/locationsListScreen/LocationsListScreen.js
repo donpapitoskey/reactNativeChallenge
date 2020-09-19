@@ -20,6 +20,8 @@ const LocationsScreen = (props) => {
   const [searchNameValue, setSearchNameValue] = useState('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchTypeValue, setSearchTypeValue] = useState('');
+  let searchNameVal = useRef('');
+  let searchTypeVal = useRef('');
   const [searchedTypeValue, setSearchedTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
@@ -140,6 +142,7 @@ const LocationsScreen = (props) => {
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
               searchInputValue={searchNameValue}
+              searchInputVal={searchNameVal}
               searchOppositeValue={searchTypeValue}
               setSearchInputValue={setSearchNameValue}
               setSearchedInputValue={setSearchedNameValue}
@@ -154,6 +157,7 @@ const LocationsScreen = (props) => {
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
               searchInputValue={searchTypeValue}
+              searchInputVal={searchTypeVal}
               searchOppositeValue={searchNameValue}
               setSearchInputValue={setSearchTypeValue}
               setSearchedInputValue={setSearchedTypeValue}

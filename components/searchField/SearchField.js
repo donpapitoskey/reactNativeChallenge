@@ -20,9 +20,12 @@ const SearchField = (props) => {
     onPressHandler,
   } = props;
 
+  let {searchInputVal} = props;
+
   let inputRef = useRef(placeholder);
 
   const onInputChangeHandler = (text) => {
+    searchInputVal.current = text;
     setSearchInputValue(text);
     if (text.length > 0) {
       setClearInputVisible(true);
@@ -40,6 +43,7 @@ const SearchField = (props) => {
     inputRef.focus();
     inputRef.clear();
     inputRef.current = '';
+    searchInputVal.current='';
     setSearchInputValue('');
     setClearInputVisible(false);
     if (searchOppositeValue.length > 2) {
