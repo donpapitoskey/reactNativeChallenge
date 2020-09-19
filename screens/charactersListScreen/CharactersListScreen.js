@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   Animated,
   TouchableWithoutFeedback,
   Keyboard,
   Text,
+  PanResponder,
   View,
   FlatList,
 } from 'react-native';
@@ -26,7 +27,8 @@ const CharactersScreen = (props) => {
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
-
+  
+  let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const focusedHandler = () => {
@@ -44,7 +46,7 @@ const CharactersScreen = (props) => {
           searchType: searchTypeValue,
         })
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         setErrorFlag(false);
         setMaxPageValue(data.characters.info.pages);
         setArrayCharsValue(arrayOp.concat(data.characters.results));
@@ -66,7 +68,6 @@ const CharactersScreen = (props) => {
 
     if (searchingPageValue < maxPagesValue) {
       const newPage = searchingPageValue + 1;
-      console.log(newPage);
       onSearchHandler(newPage, arrayChars);
       setSearchingPage(newPage);
     }
@@ -103,6 +104,19 @@ const CharactersScreen = (props) => {
     );
   };
 
+  const scrollHandler = (nativeEvent) => {
+    const {y} = nativeEvent.contentOffset;
+    const dy = nativeEvent.velocity.y;
+    acumulator.current = acumulator.current + dy;
+    if (acumulator.current > 100 ) {
+      acumulator.current = 100;
+    }
+    if (acumulator.current < 0 ) {
+      acumulator.current = 0;
+    }
+    console.log(acumulator.current,dy);
+    scrollY.setValue(acumulator.current);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
@@ -167,19 +181,10 @@ const CharactersScreen = (props) => {
                 numColumns={1}
                 onEndReached={onPageRequestHandler}
                 onEndReachedThreshold={2}
-                onScroll={Animated.event([
-                    {
-                      nativeEvent: {
-                        contentOffset: {
-                          y: scrollY,
-                        },
-                      },
-                    },
-                  ],
-                  {
-                    useNativeDriver: false,
-                  }
-                )}
+                onScroll={Animated.event([], {
+                  useNativeDriver: false,
+                  listener: (e) => scrollHandler(e.nativeEvent),
+                })}
               />
             )}
           </View>
