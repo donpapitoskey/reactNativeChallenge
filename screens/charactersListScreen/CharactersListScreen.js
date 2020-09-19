@@ -7,7 +7,13 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card, ResultsText, SearchField} from '../../components';
+import {
+  SearchBar,
+  Card,
+  ResultsText,
+  SearchField,
+  Error,
+} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -17,20 +23,18 @@ const CharactersScreen = (props) => {
   const [arrayChars, setArrayCharsValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
-  const [searchNameValue, setSearchNameValue] = useState('');
-  let searchNameVal = useRef('');
-  let searchTypeVal = useRef('');
-  let searchedNameVal = useRef('');
-  let searchedTypeVal = useRef('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchedTypeValue, setSearchedTypeValue] = useState('');
-  const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
   
+  let searchNameVal = useRef('');
+  let searchTypeVal = useRef('');
+  let searchedNameVal = useRef('');
+  let searchedTypeVal = useRef('');
   let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -41,10 +45,9 @@ const CharactersScreen = (props) => {
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
     searchedNameVal = searchNameVal;
-    setSearchedNameValue(searchedNameVal.current)
+    setSearchedNameValue(searchedNameVal.current);
     searchedTypeVal = searchTypeVal;
-    setSearchedTypeValue(searchedTypeVal.current)
-    console.log(searchedNameVal.current);
+    setSearchedTypeValue(searchedTypeVal.current);
     client
       .query({
         query: Query({
@@ -87,7 +90,7 @@ const CharactersScreen = (props) => {
   };
 
   const onPressHandler = () => {
-    if (searchNameValue.length > 2 || searchTypeValue.length > 2) {
+    if (searchNameVal.current.length > 2 || searchTypeVal.current.length > 2) {
       outsidePressHandler();
       onNewSearchHandler();
     }
@@ -143,10 +146,8 @@ const CharactersScreen = (props) => {
               placeholder="Name"
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
-              searchInputValue={searchNameValue}
               searchInputVal={searchNameVal}
               searchOppositeValue={searchTypeVal.current}
-              setSearchInputValue={setSearchNameValue}
               clearInputVisible={clearNameVisible}
               setClearInputVisible={setClearNameVisible}
               onSearch={onNewSearchHandler}
@@ -156,10 +157,8 @@ const CharactersScreen = (props) => {
               placeholder="Type"
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
-              searchInputValue={searchTypeValue}
               searchInputVal={searchTypeVal}
               searchOppositeValue={searchNameVal.current}
-              setSearchInputValue={setSearchTypeValue}
               clearInputVisible={clearTypeVisible}
               setClearInputVisible={setClearTypeVisible}
               onSearch={onNewSearchHandler}
@@ -173,7 +172,7 @@ const CharactersScreen = (props) => {
           />
           <View>
             {errorFlag ? (
-              <Text>HOHOHO</Text>
+              <Error />
             ) : (
               <FlatList
                 data={arrayChars}

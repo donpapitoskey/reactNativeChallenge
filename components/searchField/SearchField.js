@@ -9,9 +9,7 @@ const SearchField = (props) => {
     placeholder,
     focusedHandler,
     showSearchButton,
-    searchInputValue,
     searchOppositeValue,
-    setSearchInputValue,
     clearInputVisible,
     setClearInputVisible,
     onSearch,
@@ -24,7 +22,6 @@ const SearchField = (props) => {
 
   const onInputChangeHandler = (text) => {
     searchInputVal.current = text;
-    setSearchInputValue(text);
     if (text.length > 0) {
       setClearInputVisible(true);
     } else {
@@ -40,7 +37,6 @@ const SearchField = (props) => {
     inputRef.clear();
     inputRef.current = '';
     searchInputVal.current = '';
-    setSearchInputValue('');
     setClearInputVisible(false);
     console.log(searchOppositeValue);
     if (searchOppositeValue.length > 2) {
@@ -57,7 +53,6 @@ const SearchField = (props) => {
         <TextInput
           style={styles.text}
           ref={(input) => (inputRef = input)}
-          
           placeholder={inputRef.length < 1 ? null : `${placeholder}...`}
           onFocus={focusedHandler}
           onChangeText={onInputChangeHandler}
@@ -65,7 +60,7 @@ const SearchField = (props) => {
         />
         {clearInputVisible ? (
           <IconButton
-            style={{ marginLeft: showSearchButton ? null : 51 }}
+            style={{marginLeft: showSearchButton ? null : 51}}
             name="close-sharp"
             onPressAction={inputCancelButtonPressedHandler}
           />

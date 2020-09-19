@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   Animated,
   TouchableWithoutFeedback,
@@ -7,7 +7,13 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {SearchBar, Card, ResultsText, SearchField} from '../../components';
+import {
+  SearchBar,
+  Card,
+  ResultsText,
+  SearchField,
+  Error,
+} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -17,11 +23,7 @@ const LocationsScreen = (props) => {
   const [arrayLocations, setArrayLocationsValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
-  const [searchNameValue, setSearchNameValue] = useState('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
-  const [searchTypeValue, setSearchTypeValue] = useState('');
-  let searchNameVal = useRef('');
-  let searchTypeVal = useRef('');
   const [searchedTypeValue, setSearchedTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
@@ -29,6 +31,10 @@ const LocationsScreen = (props) => {
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
+  let searchNameVal = useRef('');
+  let searchTypeVal = useRef('');
+  let searchedNameVal = useRef('');
+  let searchedTypeVal = useRef('');
   let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -38,13 +44,17 @@ const LocationsScreen = (props) => {
 
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
+    searchedNameVal = searchNameVal;
+    setSearchedNameValue(searchedNameVal.current);
+    searchedTypeVal = searchTypeVal;
+    setSearchedTypeValue(searchedTypeVal.current);
     client
       .query({
         query: Query({
           typeOfSearch: 'locations',
           searchingPage: newpage,
-          searchName: searchNameValue,
-          searchType: searchTypeValue
+          searchName: searchNameVal.current,
+          searchType: searchTypeVal.current,
         }),
       })
       .then(({ data }) => {
@@ -80,7 +90,7 @@ const LocationsScreen = (props) => {
   };
 
   const onPressHandler = () => {
-    if (searchNameValue.length > 2 || searchTypeValue.length > 2) {
+    if (searchNameVal.current.length > 2 || searchTypeVal.current.length > 2) {
       outsidePressHandler();
       onNewSearchHandler();
     }
@@ -100,7 +110,7 @@ const LocationsScreen = (props) => {
 
 
   const renderListItem = (itemData) => {
-    const { name, dimension } = itemData.item;
+    const {name, dimension} = itemData.item;
     return (
       <Card
         name={name}
@@ -116,10 +126,6 @@ const LocationsScreen = (props) => {
       />
     );
   };
-
-  const Error = () => {
-    return <Text>Sorry Morty, we could not meet that criteria :(</Text>;
-  }
 
   return (
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
@@ -141,12 +147,8 @@ const LocationsScreen = (props) => {
               placeholder="Name"
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
-              searchInputValue={searchNameValue}
               searchInputVal={searchNameVal}
-              searchOppositeValue={searchTypeValue}
-              setSearchInputValue={setSearchNameValue}
-              setSearchedInputValue={setSearchedNameValue}
-              setSearchedOppositeValue={setSearchedTypeValue}
+              searchOppositeValue={searchTypeVal.current}
               clearInputVisible={clearNameVisible}
               setClearInputVisible={setClearNameVisible}
               onSearch={onNewSearchHandler}
@@ -156,11 +158,8 @@ const LocationsScreen = (props) => {
               placeholder="Type"
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
-              searchInputValue={searchTypeValue}
               searchInputVal={searchTypeVal}
-              searchOppositeValue={searchNameValue}
-              setSearchInputValue={setSearchTypeValue}
-              setSearchedInputValue={setSearchedTypeValue}
+              searchOppositeValue={searchNameVal.current}
               clearInputVisible={clearTypeVisible}
               setClearInputVisible={setClearTypeVisible}
               onSearch={onNewSearchHandler}
@@ -169,9 +168,7 @@ const LocationsScreen = (props) => {
           </SearchBar>
           {fetching ? <Text>Loading ...</Text> : null}
           <ResultsText
-            searchNameValue={searchNameValue}
             searchedNameValue={searchedNameValue}
-            searchTypeValue={searchTypeValue}
             searchedTypeValue={searchedTypeValue}
           />
           <View>

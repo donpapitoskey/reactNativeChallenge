@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   Animated,
   TouchableWithoutFeedback,
@@ -7,7 +7,13 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import { SearchBar, Card, ResultsText, SearchField } from '../../components';
+import {
+  SearchBar,
+  Card,
+  ResultsText,
+  SearchField,
+  Error,
+} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -17,14 +23,14 @@ const EpisodesScreen = (props) => {
   const [arrayEpisodes, setArrayEpisodesValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
-  const [searchNameValue, setSearchNameValue] = useState('');
-  let searchNameVal = useRef('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
+  let searchNameVal = useRef('');
+  let searchedNameVal = useRef('');
   let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -34,15 +40,17 @@ const EpisodesScreen = (props) => {
 
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
+    searchedNameVal = searchNameVal;
+    setSearchedNameValue(searchedNameVal.current);
     client
       .query({
         query: Query({
           typeOfSearch: 'episodes',
           searchingPage: newpage,
-          searchName: searchNameValue,
-        })
+          searchName: searchNameVal.current,
+        }),
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         setErrorFlag(false);
         setMaxPageValue(data.episodes.info.pages);
         setArrayEpisodesValue(arrayOp.concat(data.episodes.results));
@@ -74,7 +82,7 @@ const EpisodesScreen = (props) => {
   };
 
   const onPressHandler = () => {
-    if (searchNameValue.length > 2) {
+    if (searchNameVal.current.length > 2) {
       outsidePressHandler();
       onNewSearchHandler();
     }
@@ -83,10 +91,10 @@ const EpisodesScreen = (props) => {
   const scrollHandler = (nativeEvent) => {
     const dy = nativeEvent.velocity.y;
     acumulator.current = acumulator.current + dy;
-    if (acumulator.current > 100 ) {
+    if (acumulator.current > 100) {
       acumulator.current = 100;
     }
-    if (acumulator.current < 0 ) {
+    if (acumulator.current < 0) {
       acumulator.current = 0;
     }
     scrollY.setValue(acumulator.current);
@@ -131,12 +139,8 @@ const EpisodesScreen = (props) => {
               placeholder="Name"
               focusedHandler={focusedHandler}
               showSearchButton={showSearchButton}
-              searchInputValue={searchNameValue}
               searchInputVal={searchNameVal}
               searchOppositeValue={''}
-              setSearchInputValue={setSearchNameValue}
-              setSearchedInputValue={setSearchedNameValue}
-              setSearchedOppositeValue={() => {}}
               clearInputVisible={clearNameVisible}
               setClearInputVisible={setClearNameVisible}
               onSearch={onNewSearchHandler}
@@ -145,24 +149,26 @@ const EpisodesScreen = (props) => {
           </SearchBar>
           {fetching ? <Text>Loading ...</Text> : null}
           <ResultsText
-            searchNameValue={searchNameValue}
             searchedNameValue={searchedNameValue}
-            searchTypeValue={''}
             searchedTypeValue={''}
           />
           <View>
-            <FlatList
-              data={arrayEpisodes}
-              onEndReachedThreshold={2}
-              keyExtractor={(item, index) => item.id}
-              renderItem={renderListItem}
-              numColumns={1}
-              onEndReached={onPageRequestHandler}
-              onScroll={Animated.event([], {
-                useNativeDriver: false,
-                listener: (e) => scrollHandler(e.nativeEvent),
-              })}
-            />
+            {errorFlag ? (
+              <Error />
+            ) : (
+              <FlatList
+                data={arrayEpisodes}
+                onEndReachedThreshold={2}
+                keyExtractor={(item, index) => item.id}
+                renderItem={renderListItem}
+                numColumns={1}
+                onEndReached={onPageRequestHandler}
+                onScroll={Animated.event([], {
+                  useNativeDriver: false,
+                  listener: (e) => scrollHandler(e.nativeEvent),
+                })}
+              />
+            )}
           </View>
         </Animated.View>
       </View>
