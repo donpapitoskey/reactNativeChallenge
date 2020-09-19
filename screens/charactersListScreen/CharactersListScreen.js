@@ -4,7 +4,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Text,
-  PanResponder,
   View,
   FlatList,
 } from 'react-native';
@@ -85,6 +84,17 @@ const CharactersScreen = (props) => {
     }
   };
 
+  const scrollHandler = (nativeEvent) => {
+    const dy = nativeEvent.velocity.y;
+    acumulator.current = acumulator.current + dy;
+    if (acumulator.current > 100 ) {
+      acumulator.current = 100;
+    }
+    if (acumulator.current < 0 ) {
+      acumulator.current = 0;
+    }
+    scrollY.setValue(acumulator.current);
+  };
 
   const renderListItem = (itemData) => {
     const {image, name} = itemData.item;
@@ -102,20 +112,6 @@ const CharactersScreen = (props) => {
         }}
       />
     );
-  };
-
-  const scrollHandler = (nativeEvent) => {
-    const {y} = nativeEvent.contentOffset;
-    const dy = nativeEvent.velocity.y;
-    acumulator.current = acumulator.current + dy;
-    if (acumulator.current > 100 ) {
-      acumulator.current = 100;
-    }
-    if (acumulator.current < 0 ) {
-      acumulator.current = 0;
-    }
-    console.log(acumulator.current,dy);
-    scrollY.setValue(acumulator.current);
   };
 
   return (
@@ -188,7 +184,6 @@ const CharactersScreen = (props) => {
               />
             )}
           </View>
-          {fetching ? <Text>Loading ...</Text> : null}
         </Animated.View>
       </View>
     </TouchableWithoutFeedback>

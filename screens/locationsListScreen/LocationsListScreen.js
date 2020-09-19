@@ -7,7 +7,7 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import { SearchBar, Card, ResultsText, SearchField } from '../../components';
+import {SearchBar, Card, ResultsText, SearchField} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -27,8 +27,8 @@ const LocationsScreen = (props) => {
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
+  let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
-
 
   const focusedHandler = () => {
     setSearchButton(true);
@@ -83,6 +83,19 @@ const LocationsScreen = (props) => {
       onNewSearchHandler();
     }
   };
+
+  const scrollHandler = (nativeEvent) => {
+    const dy = nativeEvent.velocity.y;
+    acumulator.current = acumulator.current + dy;
+    if (acumulator.current > 100 ) {
+      acumulator.current = 100;
+    }
+    if (acumulator.current < 0 ) {
+      acumulator.current = 0;
+    }
+    scrollY.setValue(acumulator.current);
+  };
+
 
   const renderListItem = (itemData) => {
     const { name, dimension } = itemData.item;
@@ -168,20 +181,10 @@ const LocationsScreen = (props) => {
                 numColumns={1}
                 onEndReached={onPageRequestHandler}
                 onEndReachedThreshold={2}
-                onScroll={Animated.event(
-                  [
-                    {
-                      nativeEvent: {
-                        contentOffset: {
-                          y: scrollY,
-                        },
-                      },
-                    },
-                  ],
-                  {
-                    useNativeDriver: false,
-                  },
-                )}
+                onScroll={Animated.event([], {
+                  useNativeDriver: false,
+                  listener: (e) => scrollHandler(e.nativeEvent),
+                })}
               />
             )}
           </View>

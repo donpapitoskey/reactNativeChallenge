@@ -14,8 +14,6 @@ import styles from './styles';
 
 const EpisodesScreen = (props) => {
 
-  const scrollY = useRef(new Animated.Value(0)).current;
-
   const [arrayEpisodes, setArrayEpisodesValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
@@ -25,6 +23,9 @@ const EpisodesScreen = (props) => {
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
+
+  let acumulator = useRef(0);
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const focusedHandler = () => {
     setSearchButton(true);
@@ -78,8 +79,20 @@ const EpisodesScreen = (props) => {
     }
   };
 
+  const scrollHandler = (nativeEvent) => {
+    const dy = nativeEvent.velocity.y;
+    acumulator.current = acumulator.current + dy;
+    if (acumulator.current > 100 ) {
+      acumulator.current = 100;
+    }
+    if (acumulator.current < 0 ) {
+      acumulator.current = 0;
+    }
+    scrollY.setValue(acumulator.current);
+  };
+
   const renderListItem = (itemData) => {
-    const { name, episode } = itemData.item;
+    const {name, episode} = itemData.item;
     return (
       <Card
         name={name}
@@ -143,19 +156,10 @@ const EpisodesScreen = (props) => {
               renderItem={renderListItem}
               numColumns={1}
               onEndReached={onPageRequestHandler}
-              onScroll={Animated.event([
-                  {
-                    nativeEvent: {
-                      contentOffset: {
-                        y: scrollY,
-                      },
-                    },
-                  },
-                ],
-                {
-                  useNativeDriver: false,
-                }
-              )}
+              onScroll={Animated.event([], {
+                useNativeDriver: false,
+                listener: (e) => scrollHandler(e.nativeEvent),
+              })}
             />
           </View>
         </Animated.View>
