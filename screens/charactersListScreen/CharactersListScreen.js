@@ -44,7 +44,7 @@ const CharactersScreen = (props) => {
           typeOfSearch: 'characters',
           searchingPage: newpage,
           searchName: searchNameVal.current,
-          searchType: searchTypeValue,
+          searchType: searchTypeVal.current,
         })
       })
       .then(({data}) => {
