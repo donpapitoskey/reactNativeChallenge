@@ -1,4 +1,5 @@
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+import {theme} from '../styled/theme';
 import {
   CharactersListScreen,
   LocationsListScreen,
@@ -16,12 +17,15 @@ const ListsTabNavigator = createMaterialTopTabNavigator(
     tabBarPosition: 'bottom',
     swipeEnabled: true,
     tabBarOptions: {
-      activeTintColor: '#8bcf21',
-      inactiveTintColor: 'black',
-      pressColor: 'gray',
+      activeTintColor: 'black',
+      inactiveTintColor: theme.color.primaryDark,
+      pressColor: theme.color.selectedTab,
+      indicatorStyle: {
+        backgroundColor: 'white',
+      },
       style: {
-        backgroundColor: '#8bcf21',
-      }
+        backgroundColor: theme.color.primary,
+      },
     },
   },
 );

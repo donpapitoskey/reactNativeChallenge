@@ -1,12 +1,16 @@
 import React from 'react';
-import {FlatList, Text, View, Image} from 'react-native';
+import {FlatList, View, Image} from 'react-native';
 import {MiniCard, NestedText} from '../../components';
 import styles from './styles';
 
 const DetailsScreen = (props) => {
   const renderListItem = (itemData) => {
     const {name, image} = itemData.item;
-    return <MiniCard name={name} image={image} />;
+    if (name) {
+      return <MiniCard name={name} image={image} />;
+    } else {
+      return null;
+    }
   };
 
   const {
@@ -21,7 +25,7 @@ const DetailsScreen = (props) => {
     characters,
     residents,
   } = props.navigation.getParam('item');
-  
+
   return (
     <View style={styles.screen}>
       {image ? <Image style={styles.image} source={{uri: image}} /> : null}
@@ -41,7 +45,7 @@ const DetailsScreen = (props) => {
         <NestedText reference="Created: ">{created}</NestedText>
       ) : null}
       {image ? null : (
-        <View style={{height: 600}}>
+        <View style={styles.imageList}>
           <FlatList
             data={episode ? characters.slice(0, 5) : residents.slice(0, 5)}
             keyExtractor={(item, index) => item.id}
@@ -52,7 +56,7 @@ const DetailsScreen = (props) => {
       )}
     </View>
   );
-}
+};
 
 DetailsScreen.navigationOptions = (navigationData) => {
   const item = navigationData.navigation.getParam('item');

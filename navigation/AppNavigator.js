@@ -2,6 +2,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import ListsTabNavigator from './ListsTabNavigator';
 import {DetailsScreen, PresentationScreen} from '../screens';
+import {theme} from '../styled/theme';
 
 const AppNavigator = createStackNavigator({
     Presentation: {
@@ -23,9 +24,9 @@ const AppNavigator = createStackNavigator({
     defaultNavigationOptions: {
       headerShown: false,
       headerStyle: {
-        backgroundColor: 'black',
+        backgroundColor: theme.color.primaryDark,
       },
-      headerTintColor: 'white',
+      headerTintColor: theme.color.selectedTab,
       animationEnabled: true,
     },
   },

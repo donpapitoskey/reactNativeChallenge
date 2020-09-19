@@ -1,6 +1,7 @@
 import React from 'react';
-import {Button, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import styles from './styles';
+import {InitButton} from '../../components';
 
 const PresentationScreen = (props) => {
   const date = new Date().toLocaleDateString();
@@ -11,14 +12,12 @@ const PresentationScreen = (props) => {
         <Text style={{fontSize: 16}}>Juan J. Alarcon</Text>
       </View>
       <View>
-        <View style={styles.bottomItem}>
-          <Button
-            title="Enter"
-            onPress={() => {
-              props.navigation.replace('Lists');
-            }}
-          />
-        </View>
+        <InitButton 
+          style={styles.bottomItem}
+          onPressAction={() => {
+            props.navigation.replace('Lists');
+          }}
+        />
         <View style={styles.bottomItem}>
           <Text>{date}</Text>
         </View>

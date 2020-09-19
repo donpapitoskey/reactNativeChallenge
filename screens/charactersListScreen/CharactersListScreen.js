@@ -99,10 +99,10 @@ const CharactersScreen = (props) => {
   const scrollHandler = (nativeEvent) => {
     const dy = nativeEvent.velocity.y;
     acumulator.current = acumulator.current + dy;
-    if (acumulator.current > 100 ) {
-      acumulator.current = 100;
+    if (acumulator.current > 115) {
+      acumulator.current = 115;
     }
-    if (acumulator.current < 0 ) {
+    if (acumulator.current < 0) {
       acumulator.current = 0;
     }
     scrollY.setValue(acumulator.current);
@@ -135,8 +135,8 @@ const CharactersScreen = (props) => {
             transform: [
               {
                 translateY: scrollY.interpolate({
-                  inputRange: [0, 100, 101],
-                  outputRange: [0, -100, -100],
+                  inputRange: [0, 115, 116],
+                  outputRange: [0, -115, -115],
                 }),
               },
             ],
