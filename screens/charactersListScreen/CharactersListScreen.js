@@ -20,9 +20,11 @@ const CharactersScreen = (props) => {
   const [searchNameValue, setSearchNameValue] = useState('');
   let searchNameVal = useRef('');
   let searchTypeVal = useRef('');
-  const [searchTypeValue, setSearchTypeValue] = useState('');
+  let searchedNameVal = useRef('');
+  let searchedTypeVal = useRef('');
   const [searchedNameValue, setSearchedNameValue] = useState('');
   const [searchedTypeValue, setSearchedTypeValue] = useState('');
+  const [searchTypeValue, setSearchTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
@@ -38,6 +40,11 @@ const CharactersScreen = (props) => {
 
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
+    searchedNameVal = searchNameVal;
+    setSearchedNameValue(searchedNameVal.current)
+    searchedTypeVal = searchTypeVal;
+    setSearchedTypeValue(searchedTypeVal.current)
+    console.log(searchedNameVal.current);
     client
       .query({
         query: Query({
@@ -138,10 +145,8 @@ const CharactersScreen = (props) => {
               showSearchButton={showSearchButton}
               searchInputValue={searchNameValue}
               searchInputVal={searchNameVal}
-              searchOppositeValue={searchTypeVal}
+              searchOppositeValue={searchTypeVal.current}
               setSearchInputValue={setSearchNameValue}
-              setSearchedInputValue={setSearchedNameValue}
-              setSearchedOppositeValue={setSearchedTypeValue}
               clearInputVisible={clearNameVisible}
               setClearInputVisible={setClearNameVisible}
               onSearch={onNewSearchHandler}
@@ -153,10 +158,8 @@ const CharactersScreen = (props) => {
               showSearchButton={showSearchButton}
               searchInputValue={searchTypeValue}
               searchInputVal={searchTypeVal}
-              searchOppositeValue={searchNameVal}
+              searchOppositeValue={searchNameVal.current}
               setSearchInputValue={setSearchTypeValue}
-              setSearchedInputValue={setSearchedTypeValue}
-              setSearchedOppositeValue={setSearchedNameValue}
               clearInputVisible={clearTypeVisible}
               setClearInputVisible={setClearTypeVisible}
               onSearch={onNewSearchHandler}
@@ -165,9 +168,7 @@ const CharactersScreen = (props) => {
           </SearchBar>
           {fetching ? <Text>Loading ...</Text> : null}
           <ResultsText
-            searchNameValue={searchNameValue}
             searchedNameValue={searchedNameValue}
-            searchTypeValue={searchTypeValue}
             searchedTypeValue={searchedTypeValue}
           />
           <View>

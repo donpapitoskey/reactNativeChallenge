@@ -70,21 +70,7 @@ const Query = (props) => {
                     }
             }
         }
-    `
-  console.log(`
-  query {
-      ${typeOfSearch}(filter:{${searchCriteria}} page: ${searchingPage}) {
-          info {
-              count
-              pages
-              next
-              }
-          results{
-              ${requestProps}
-                  }
-          }
-      }
-  `);
+    `;
   return query;
 }
 

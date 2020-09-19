@@ -12,8 +12,6 @@ const SearchField = (props) => {
     searchInputValue,
     searchOppositeValue,
     setSearchInputValue,
-    setSearchedInputValue,
-    setSearchedOppositeValue,
     clearInputVisible,
     setClearInputVisible,
     onSearch,
@@ -32,9 +30,7 @@ const SearchField = (props) => {
     } else {
       setClearInputVisible(false);
     }
-    if (text.length > 2 || searchOppositeValue.length > 2) {
-      setSearchedInputValue(text);
-      setSearchedOppositeValue(searchOppositeValue);
+    if (text.length > 2) {
       onSearch();
     }
   };
@@ -43,11 +39,11 @@ const SearchField = (props) => {
     inputRef.focus();
     inputRef.clear();
     inputRef.current = '';
-    searchInputVal.current='';
+    searchInputVal.current = '';
     setSearchInputValue('');
     setClearInputVisible(false);
+    console.log(searchOppositeValue);
     if (searchOppositeValue.length > 2) {
-      setSearchedInputValue('');
       onSearch();
     }
   };
@@ -61,7 +57,7 @@ const SearchField = (props) => {
         <TextInput
           style={styles.text}
           ref={(input) => (inputRef = input)}
-          value={searchInputValue}
+          
           placeholder={inputRef.length < 1 ? null : `${placeholder}...`}
           onFocus={focusedHandler}
           onChangeText={onInputChangeHandler}
