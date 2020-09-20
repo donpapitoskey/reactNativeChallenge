@@ -28,7 +28,12 @@ const DetailsScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      {image ? <Image style={styles.image} source={{uri: image}} /> : null}
+      {image ? (
+        <Image
+          style={styles.image}
+          source={{uri: image, width: styles.image.height}}
+        />
+      ) : null}
       <NestedText reference="Name: ">{name}</NestedText>
       {dimension ? (
         <NestedText reference="Dimension: ">{dimension}</NestedText>

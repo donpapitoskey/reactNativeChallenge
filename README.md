@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created with [react-native init <projectName>](https://reactnative.dev/docs/0.8/getting-started).
 
 ### React Challenge - Of Rick & Morty 
 
@@ -6,10 +6,10 @@ This is a project developed to explore the design of an application to consume B
 
 The application itself allows the user to search for names of characters, episodes or locations of the series and retrieve the informatión from this [API](https://rickandmortyapi.com/graphql).
 
-In the left section of the page, the user can select the type of search the application will perform between "Characters", "Locations" and "Episodes". In the upper section, the user can write down the search criteria words in two search boxes; one for the "Name" field and another for "Type" field. A screenshot of the main view is shown below: 
-![mainView](https://user-images.githubusercontent.com/59004502/92009119-a5308680-ed0d-11ea-9423-d987434f0b47.PNG)
+In the initial screen of the app, the user can begin to explore the application by presing the "Start" button. A screenshot of the initial screen is shown below: 
 
-For the search to work properly, the user must write down more than 3 letters in one of the fields and press `Enter`. The search will obtain cards with information related to the criteria searche fields. In example, for obtaining information cards about the characters with the letters `rick`, the application will display some the screen shown below:
+
+For the search to work properly, the user must write down more than 3 letters in one of the fields. The search will obtain cards with information related to the criteria search fields. In example, for obtaining information cards about the characters with the letters `rick`, the application will display some the screen shown below:
 ![image](https://user-images.githubusercontent.com/59004502/92009022-803c1380-ed0d-11ea-88a9-7e2de6361c29.png)
 
 Once obtained the cards, the user can click the cards and display further information about the selected character/location/episode as shown in the image below:
@@ -58,7 +58,17 @@ Installs the necessary libraries listed above.
 Runs the app in a connected Android device.
 For the development and debugging an Xiaomi MI Lite 8 was used. 
 
+### `yarn ios`
+
+(Not suggested). Runs the app in a connected Apple device.
+Since the project was developed in Windows, it is not suitable for IOS devices.
+
 ### `yarn lint`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the eslint analysis for code cleanning.
+
+### `yarn test`
+
+Launches the jest analysis for unit testing.
+
+
