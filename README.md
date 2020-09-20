@@ -10,7 +10,7 @@ In the initial screen of the app, the user can begin to explore the application 
 
 
 For the search to work properly, the user must write down more than 3 letters in one of the fields. The search will obtain cards with information related to the criteria search fields. In example, for obtaining information cards about the characters with the letters `rick`, the application will display some the screen shown below:
-![image](https://user-images.githubusercontent.com/59004502/92009022-803c1380-ed0d-11ea-88a9-7e2de6361c29.png)
+![Rick](https://user-images.githubusercontent.com/59004502/93692859-da82f580-fabd-11ea-9eed-356fc44a5f74.jpeg)
 
 Once obtained the cards, the user can click the cards and display further information about the selected character/location/episode as shown in the image below:
 ![image](https://user-images.githubusercontent.com/59004502/92009872-baf27b80-ed0e-11ea-8f79-f0fe7b95ba2a.png).
