@@ -1,7 +1,8 @@
 import React, {useRef} from 'react';
 import {View, TextInput} from 'react-native';
 import styles from './styles';
-import IconButton from '../iconButton';
+import IconButton from '../IconButton';
+import PropTypes from 'prop-types';
 
 const SearchField = (props) => {
 
@@ -38,8 +39,7 @@ const SearchField = (props) => {
     inputRef.current = '';
     searchInputVal.current = '';
     setClearInputVisible(false);
-    console.log(searchOppositeValue);
-    if (searchOppositeValue.length > 2) {
+    if (searchOppositeValue.current.length > 2) {
       onSearch();
     }
   };
@@ -47,9 +47,9 @@ const SearchField = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.search}>
-        {showSearchButton ? (
+        {showSearchButton &&
           <IconButton name="search" onPressAction={onPressHandler} />
-        ) : null}
+        }
         <TextInput
           style={styles.text}
           ref={(input) => (inputRef = input)}
@@ -71,8 +71,17 @@ const SearchField = (props) => {
 
 };
 
+SearchField.propTypes = {
+  placeholder: PropTypes.string,
+  focusedHandler: PropTypes.func,
+  showSearchButton: PropTypes.bool,
+  searchOppositeValue: PropTypes.shape({current: PropTypes.string}),
+  clearInputVisible: PropTypes.bool,
+  setClearInputVisible: PropTypes.func,
+  onSearch: PropTypes.func,
+  onPressHandler: PropTypes.func,
+  searchInputVal: PropTypes.shape({current: PropTypes.string}),
+};
 
 export default SearchField;
-
-
 

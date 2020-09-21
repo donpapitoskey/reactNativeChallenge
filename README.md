@@ -9,7 +9,7 @@ The application itself allows the user to search for names of characters, episod
 In the initial screen of the app, the user can begin to explore the application by presing the "Start" button. A screenshot of the initial screen is shown below: 
 
 
-For the search to work properly, the user must write down more than 3 letters in one of the fields. The search will obtain cards with information related to the criteria search fields. In example, for obtaining information cards about the characters with the letters `rick`, the application will display some the screen shown below:
+For the search to work properly, the user must write down more than 2 letters in one of the fields. The search will obtain cards with information related to the criteria search fields. In example, for obtaining information cards about the characters with the letters `rick`, the application will display some the screen shown below:
 ![Search](https://user-images.githubusercontent.com/59004502/93692884-2897f900-fabe-11ea-870b-6c7d479b4b6e.jpeg)
 
 Once obtained the cards, the user can click the cards and display further information about the selected character/location/episode as shown in the image below:

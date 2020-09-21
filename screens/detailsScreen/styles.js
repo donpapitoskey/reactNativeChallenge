@@ -8,7 +8,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   imageList: {
-    height: '85%',
+    height: '100%',
   },
   image: {
     height: '85%',

@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
 import styles from './styles';
+import PropTypes from 'prop-types';
 
 const Card = (props) => {
   const {image, name, dimension, episode, onSelect} = props;
@@ -9,13 +10,22 @@ const Card = (props) => {
     <View>
       <TouchableNativeFeedback style={styles.touchable} onPress={onSelect}>
         <View style={styles.container}>
-          {image ? <Image style={styles.image} source={{uri: image}} /> : null}
+          {image && <Image style={styles.image} source={{uri: image}} />}
           <Text>{name}</Text>
-          {dimension ? <Text>{dimension} </Text> : null}
-          {episode ? <Text>{episode} </Text> : null}
+          {dimension && <Text>{dimension} </Text>}
+          {episode && <Text>{episode} </Text>}
         </View>
       </TouchableNativeFeedback>
     </View>
   );
 };
+
+Card.propTypes = {
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string,
+  dimension: PropTypes.string,
+  episode: PropTypes.string,
+  onSelect: PropTypes.func,
+};
+
 export default Card;

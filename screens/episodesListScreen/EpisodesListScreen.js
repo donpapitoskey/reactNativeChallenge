@@ -7,13 +7,7 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {
-  SearchBar,
-  Card,
-  ResultsText,
-  SearchField,
-  Error,
-} from '../../components';
+import {SearchBar, Card, ResultsText, Error} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -134,19 +128,19 @@ const EpisodesScreen = (props) => {
               },
             ],
           }}>
-          <SearchBar>
-            <SearchField
-              placeholder="Name"
-              focusedHandler={focusedHandler}
-              showSearchButton={showSearchButton}
-              searchInputVal={searchNameVal}
-              searchOppositeValue={''}
-              clearInputVisible={clearNameVisible}
-              setClearInputVisible={setClearNameVisible}
-              onSearch={onNewSearchHandler}
-              onPressHandler={onPressHandler}
-            />
-          </SearchBar>
+          <SearchBar 
+            focusedHandler={focusedHandler} 
+            showSearchButton={showSearchButton}
+            searchTypeVal={{}}
+            searchNameVal={searchNameVal}
+            clearNameVisible={clearNameVisible}
+            setClearNameVisible={setClearNameVisible}
+            clearTypeVisible={false}
+            setClearTypeVisible={() => {}}
+            onNewSearchHandler={onNewSearchHandler}
+            onPressHandler={onPressHandler}
+            isEpisode={true}
+          />
           {fetching ? <Text>Loading ...</Text> : null}
           <ResultsText
             searchedNameValue={searchedNameValue}

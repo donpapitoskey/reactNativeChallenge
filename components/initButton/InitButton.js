@@ -1,8 +1,9 @@
 import React from 'react';
 import {View, TouchableNativeFeedback, Text} from 'react-native';
 import styles from './styles';
+import PropTypes from 'prop-types';
 
-const IconButton = (props) => {
+const InitButton = (props) => {
 
   const {onPressAction, style} = props;
 
@@ -17,4 +18,9 @@ const IconButton = (props) => {
   );
 };
 
-export default IconButton;
+InitButton.propTypes = {
+  onPressAction: PropTypes.func,
+  stle: PropTypes.object,
+}
+
+export default InitButton;

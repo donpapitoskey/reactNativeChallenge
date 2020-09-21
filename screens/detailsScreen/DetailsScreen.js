@@ -2,8 +2,10 @@ import React from 'react';
 import {FlatList, View, Image} from 'react-native';
 import {MiniCard, NestedText} from '../../components';
 import styles from './styles';
+import PropTypes from 'prop-types';
 
 const DetailsScreen = (props) => {
+
   const renderListItem = (itemData) => {
     const {name, image} = itemData.item;
     if (name) {
@@ -28,28 +30,21 @@ const DetailsScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      {image ? (
+      {image &&
         <Image
           style={styles.image}
           source={{uri: image, width: styles.image.height}}
-        />
-      ) : null}
+        />}
       <NestedText reference="Name: ">{name}</NestedText>
-      {dimension ? (
+      {dimension &&
         <NestedText reference="Dimension: ">{dimension}</NestedText>
-      ) : null}
-      {episode ? (
-        <NestedText reference="Episode: ">{episode}</NestedText>
-      ) : null}
+      }
+      {episode && <NestedText reference="Episode: ">{episode}</NestedText>}
       {type ? <NestedText reference="Type: ">{type}</NestedText> : null}
-      {gender ? <NestedText reference="Gender: ">{gender}</NestedText> : null}
-      {species ? (
-        <NestedText reference="Species: ">{species}</NestedText>
-      ) : null}
-      {created ? (
-        <NestedText reference="Created: ">{created}</NestedText>
-      ) : null}
-      {image ? null : (
+      {gender && <NestedText reference="Gender: ">{gender}</NestedText>}
+      {species && <NestedText reference="Species: ">{species}</NestedText>}
+      {created && <NestedText reference="Created: ">{created}</NestedText>}
+      {!image &&
         <View style={styles.imageList}>
           <FlatList
             data={episode ? characters.slice(0, 5) : residents.slice(0, 5)}
@@ -58,7 +53,7 @@ const DetailsScreen = (props) => {
             numColumns={1}
           />
         </View>
-      )}
+      }
     </View>
   );
 };
@@ -69,5 +64,26 @@ DetailsScreen.navigationOptions = (navigationData) => {
     headerTitle: item.name,
   };
 };
+
+DetailsScreen.propTypes = {
+  name: PropTypes.string,
+  image: PropTypes.string,
+  dimension: PropTypes.string,
+  episode: PropTypes.string,
+  type: PropTypes.string,
+  gender: PropTypes.string,
+  species: PropTypes.string,
+  created: PropTypes.string,
+  characters: PropTypes.arrayOf({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    image: PropTypes.string,
+  }),
+  residents: PropTypes.arrayOf({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    image: PropTypes.string,
+  }),
+ };
 
 export default DetailsScreen;

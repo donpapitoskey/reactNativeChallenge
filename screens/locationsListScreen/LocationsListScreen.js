@@ -7,13 +7,7 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {
-  SearchBar,
-  Card,
-  ResultsText,
-  SearchField,
-  Error,
-} from '../../components';
+import {SearchBar, Card, ResultsText, Error} from '../../components';
 import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
@@ -141,30 +135,19 @@ const LocationsScreen = (props) => {
               },
             ],
           }}>
-          <SearchBar>
-            <SearchField
-              placeholder="Name"
-              focusedHandler={focusedHandler}
-              showSearchButton={showSearchButton}
-              searchInputVal={searchNameVal}
-              searchOppositeValue={searchTypeVal.current}
-              clearInputVisible={clearNameVisible}
-              setClearInputVisible={setClearNameVisible}
-              onSearch={onNewSearchHandler}
-              onPressHandler={onPressHandler}
-            />
-            <SearchField
-              placeholder="Type"
-              focusedHandler={focusedHandler}
-              showSearchButton={showSearchButton}
-              searchInputVal={searchTypeVal}
-              searchOppositeValue={searchNameVal.current}
-              clearInputVisible={clearTypeVisible}
-              setClearInputVisible={setClearTypeVisible}
-              onSearch={onNewSearchHandler}
-              onPressHandler={onPressHandler}
-            />
-          </SearchBar>
+          <SearchBar 
+            focusedHandler={focusedHandler} 
+            showSearchButton={showSearchButton}
+            searchTypeVal={searchTypeVal}
+            searchNameVal={searchNameVal}
+            clearNameVisible={clearNameVisible}
+            setClearNameVisible={setClearNameVisible}
+            clearTypeVisible={clearTypeVisible}
+            setClearTypeVisible={setClearTypeVisible}
+            onNewSearchHandler={onNewSearchHandler}
+            onPressHandler={onPressHandler}
+            isEpisode={false}
+          />
           {fetching ? <Text>Loading ...</Text> : null}
           <ResultsText
             searchedNameValue={searchedNameValue}
