@@ -7,3 +7,4 @@ export {default as ResultsText} from './ResultsText';
 export {default as SearchField} from './SearchField';
 export {default as NestedText} from './NestedText';
 export {default as Error} from './Error';
+export {default as CustomText} from './CustomText';

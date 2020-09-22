@@ -1,15 +1,15 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import styles from './styles';
-import {InitButton} from '../../components';
+import {InitButton, CustomText} from '../../components';
 
 const PresentationScreen = (props) => {
   const date = new Date().toLocaleDateString();
   return (
     <View style={styles.screen}>
       <View style={styles.title}>
-        <Text style={{fontSize: 24}}>REACT NATIVE CHALLENGE</Text>
-        <Text style={{fontSize: 16}}>Juan J. Alarcon</Text>
+        <CustomText fontSize={24}>REACT NATIVE CHALLENGE</CustomText>
+        <CustomText fontSize={16}>Juan J. Alarcon</CustomText>
       </View>
       <View>
         <InitButton
