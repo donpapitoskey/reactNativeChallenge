@@ -66,24 +66,9 @@ DetailsScreen.navigationOptions = (navigationData) => {
 };
 
 DetailsScreen.propTypes = {
-  name: PropTypes.string,
-  image: PropTypes.string,
-  dimension: PropTypes.string,
-  episode: PropTypes.string,
-  type: PropTypes.string,
-  gender: PropTypes.string,
-  species: PropTypes.string,
-  created: PropTypes.string,
-  characters: PropTypes.arrayOf({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    image: PropTypes.string,
-  }),
-  residents: PropTypes.arrayOf({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    image: PropTypes.string,
-  }),
- };
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default DetailsScreen;

@@ -6,10 +6,13 @@ import PropTypes from 'prop-types';
 
 const IconButton = (props) => {
 
-  const {name, onPressAction, style} = props;
+  const {name, onPressAction, showSearchButton} = props;
 
   return (
-    <View style={{...style, ...styles.buttonContainer}}>
+    <View
+      style={
+        showSearchButton ? styles.buttonContainer : styles.buttonContainerMoved
+      }>
       <TouchableNativeFeedback onPress={onPressAction}>
         <View style={styles.button}>
           <Icon name={name} type="ionicon" />
@@ -23,6 +26,7 @@ IconButton.propTypes = {
   name: PropTypes.string.isRequired,
   onPressAction: PropTypes.func,
   style: PropTypes.object,
+  showSearchButton: PropTypes.bool,
 };
 
 export default IconButton;

@@ -48,7 +48,11 @@ const SearchField = (props) => {
     <View style={styles.container}>
       <View style={styles.search}>
         {showSearchButton &&
-          <IconButton name="search" onPressAction={onPressHandler} />
+          <IconButton
+            name="search"
+            onPressAction={onPressHandler}
+            showSearchButton={true}
+          />
         }
         <TextInput
           style={styles.text}
@@ -60,7 +64,7 @@ const SearchField = (props) => {
         />
         {clearInputVisible ? (
           <IconButton
-            style={{marginLeft: showSearchButton ? null : 51}}
+            showSearchButton={showSearchButton}
             name="close-sharp"
             onPressAction={inputCancelButtonPressedHandler}
           />

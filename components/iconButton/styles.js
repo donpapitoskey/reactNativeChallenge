@@ -5,6 +5,11 @@ export default StyleSheet.create({
     borderRadius: 50,
     overflow: 'hidden',
   },
+  buttonContainerMoved: {
+    borderRadius: 50,
+    overflow: 'hidden',
+    marginLeft: 50,
+  },
   button: {
     width: 50,
     height: 50,
