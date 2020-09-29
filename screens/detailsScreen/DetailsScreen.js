@@ -10,8 +10,6 @@ const DetailsScreen = (props) => {
     const {name, image} = itemData.item;
     if (name) {
       return <MiniCard name={name} image={image} />;
-    } else {
-      return null;
     }
   };
 
