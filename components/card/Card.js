@@ -9,10 +9,12 @@ const Card = ({image, name, dimension, episode, onSelect}) => {
     <View>
       <TouchableNativeFeedback style={styles.touchable} onPress={onSelect}>
         <View style={styles.container}>
-          {image && <Image style={styles.image} source={{uri: image}} />}
+          {image != null && (
+            <Image style={styles.image} source={{uri: image}} />
+          )}
           <Text>{name}</Text>
-          {dimension && <Text>{dimension} </Text>}
-          {episode && <Text>{episode} </Text>}
+          {dimension != null && <Text>{dimension} </Text>}
+          {episode != null && <Text>{episode} </Text>}
         </View>
       </TouchableNativeFeedback>
     </View>

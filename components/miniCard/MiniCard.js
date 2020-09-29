@@ -8,7 +8,7 @@ const MiniCard = ({image, name}) => {
   return (
     <View>
       <View style={styles.container}>
-        {image && <Image style={styles.image} source={{uri: image}} />}
+        {image != null && <Image style={styles.image} source={{uri: image}} />}
         <Text>{name}</Text>
       </View>
     </View>

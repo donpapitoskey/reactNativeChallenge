@@ -30,24 +30,32 @@ const DetailsScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      {image &&
+      {image != null &&
         <Image
           style={styles.image}
           source={{uri: image, width: styles.image.height}}
         />}
       <NestedText reference="Name: ">{name}</NestedText>
-      {dimension &&
+      {dimension != null &&
         <NestedText reference="Dimension: ">{dimension}</NestedText>
       }
-      {episode && <NestedText reference="Episode: ">{episode}</NestedText>}
-      {type ? <NestedText reference="Type: ">{type}</NestedText> : null}
-      {gender && <NestedText reference="Gender: ">{gender}</NestedText>}
-      {species && <NestedText reference="Species: ">{species}</NestedText>}
-      {created && <NestedText reference="Created: ">{created}</NestedText>}
-      {!image &&
+      {episode != null && (
+        <NestedText reference="Episode: ">{episode}</NestedText>
+      )}
+      {type != null ? <NestedText reference="Type: ">{type}</NestedText> : null}
+      {gender != null && <NestedText reference="Gender: ">{gender}</NestedText>}
+      {species != null && (
+        <NestedText reference="Species: ">{species}</NestedText>
+      )}
+      {created != null && (
+        <NestedText reference="Created: ">{created}</NestedText>
+      )}
+      {image == null &&
         <View style={styles.imageList}>
           <FlatList
-            data={episode ? characters.slice(0, 5) : residents.slice(0, 5)}
+            data={
+              episode != null ? characters.slice(0, 5) : residents.slice(0, 5)
+            }
             keyExtractor={(item, index) => item.id}
             renderItem={renderListItem}
             numColumns={1}
