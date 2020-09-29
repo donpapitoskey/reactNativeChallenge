@@ -2,20 +2,32 @@ import React from 'react';
 import {Text} from 'react-native';
 import PropTypes from 'prop-types';
 
-const ResultsText = ({searchedNameValue, searchedTypeValue}) => (
-  <Text>
-    {' '}
-    {searchedNameValue.length > 2 && searchedTypeValue.length < 1
-      ? `Results for search: Name = "${searchedNameValue}"`
-      : null}
-    {searchedTypeValue.length > 2 && searchedNameValue.length < 1
-      ? `Results for search: Type = "${searchedTypeValue}"`
-      : null}
-    {searchedTypeValue.length > 2 && searchedNameValue.length > 2
-      ? `Results for search: Name = "${searchedNameValue}" Type = "${searchedTypeValue}"`
-      : null}
-  </Text>
-);
+const ResultsText = ({searchedNameValue, searchedTypeValue}) => {
+
+
+  const returnedText = () => {
+    let displayText = '';
+    if (searchedNameValue.length > 2) {
+      displayText = displayText.concat(
+        `Results for search: Name = "${searchedNameValue}"`,
+      );
+      if (searchedTypeValue.length > 2) {
+        displayText = displayText.concat(` Type = "${searchedTypeValue}"`);
+      } 
+    } else {
+      if (searchedTypeValue.length > 2) {
+        displayText = displayText.concat(
+          `Results for search: Type = "${searchedTypeValue}"`,
+        );
+      }
+    }
+    return displayText;
+  };
+
+  return <Text>{returnedText()} </Text>
+};
+
+  
 
 ResultsText.propTypes ={
   searchedNameValue: PropTypes.string,
