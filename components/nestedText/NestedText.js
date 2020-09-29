@@ -3,9 +3,7 @@ import {Text, View} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const NestedText = (props) => {
-
-  const {children, reference} = props;
+const NestedText = ({children, reference}) => {
 
   return (
     <View style={styles.container}>

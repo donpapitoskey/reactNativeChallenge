@@ -3,9 +3,7 @@ import {View, TouchableNativeFeedback, Text} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const InitButton = (props) => {
-
-  const {onPressAction, style} = props;
+const InitButton = ({onPressAction, style}) => {
 
   return (
     <View style={{...style, ...styles.buttonContainer}}>

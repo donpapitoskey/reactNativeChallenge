@@ -2,8 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import PropTypes from 'prop-types';
 
-const ResultsText = (props) => {
-  const {searchedNameValue, searchedTypeValue} = props;
+const ResultsText = ({searchedNameValue, searchedTypeValue}) => {
 
   return (
     <Text>

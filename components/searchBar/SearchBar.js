@@ -4,21 +4,20 @@ import SearchField from '../SearchField';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const SearchBar = (props) => {
-
-  const {
-    focusedHandler,
-    showSearchButton,
-    clearNameVisible,
-    setClearNameVisible,
-    onNewSearchHandler,
-    onPressHandler,
-    clearTypeVisible,
-    setClearTypeVisible,
-    isEpisode,
-  } = props;
-
-  let {searchNameVal, searchTypeVal} = props;
+const SearchBar = ({
+  focusedHandler,
+  showSearchButton,
+  clearNameVisible,
+  setClearNameVisible,
+  onNewSearchHandler,
+  onPressHandler,
+  clearTypeVisible,
+  setClearTypeVisible,
+  isEpisode,
+  searchNameVal,
+  searchTypeVal,
+}) => {
+ 
 
   return (
     <View style={styles.header}>

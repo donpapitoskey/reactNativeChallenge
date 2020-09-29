@@ -4,9 +4,7 @@ import {Icon} from 'react-native-elements';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const IconButton = (props) => {
-
-  const {name, onPressAction, showSearchButton} = props;
+const IconButton = ({name, onPressAction, showSearchButton}) => {
 
   return (
     <View

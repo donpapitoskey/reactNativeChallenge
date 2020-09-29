@@ -4,20 +4,17 @@ import styles from './styles';
 import IconButton from '../IconButton';
 import PropTypes from 'prop-types';
 
-const SearchField = (props) => {
-
-  const {
-    placeholder,
-    focusedHandler,
-    showSearchButton,
-    searchOppositeValue,
-    clearInputVisible,
-    setClearInputVisible,
-    onSearch,
-    onPressHandler,
-  } = props;
-
-  let {searchInputVal} = props;
+const SearchField = ({
+  placeholder,
+  focusedHandler,
+  showSearchButton,
+  searchOppositeValue,
+  clearInputVisible,
+  setClearInputVisible,
+  onSearch,
+  onPressHandler,
+  searchInputVal,
+}) => {
 
   let inputRef = useRef(placeholder);
 

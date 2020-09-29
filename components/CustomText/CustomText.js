@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Text} from 'react-native';
 
-const CustomText = (props) => {
-  const {children, fontSize} = props;
+const CustomText = ({children, fontSize}) => {
+  
   return <Text style={{fontSize: fontSize}}>{children}</Text>;
 };
 

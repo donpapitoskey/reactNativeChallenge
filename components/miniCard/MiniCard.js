@@ -3,8 +3,7 @@ import {View, Text, Image} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const MiniCard = (props) => {
-  const {image, name} = props;
+const MiniCard = ({image, name}) => {
 
   return (
     <View>

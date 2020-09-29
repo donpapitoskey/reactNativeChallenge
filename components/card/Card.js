@@ -3,8 +3,7 @@ import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const Card = (props) => {
-  const {image, name, dimension, episode, onSelect} = props;
+const Card = ({image, name, dimension, episode, onSelect}) => {
 
   return (
     <View>
