@@ -4,7 +4,7 @@ import styles from './styles';
 import PropTypes from 'prop-types';
 
 const InitButton = ({onPressAction, style}) => (
-  <View style={{...style, ...styles.buttonContainer}}>
+  <View style={[style, styles.buttonContainer]}>
     <TouchableNativeFeedback onPress={onPressAction}>
       <View style={styles.button}>
         <Text style={styles.text}>Start</Text>
