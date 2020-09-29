@@ -23,14 +23,10 @@ const EpisodesScreen = (props) => {
   const [clearNameVisible, setClearNameVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
-  let searchNameVal = useRef('');
+  const searchNameVal = useRef('');
   let searchedNameVal = useRef('');
   let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
-
-  const focusedHandler = () => {
-    setSearchButton(true);
-  };
 
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
@@ -129,9 +125,9 @@ const EpisodesScreen = (props) => {
             ],
           }}>
           <SearchBar 
-            focusedHandler={focusedHandler} 
+            focusedHandler={setSearchButton} 
             showSearchButton={showSearchButton}
-            searchTypeVal={{}}
+            searchTypeVal={{current: ''}}
             searchNameVal={searchNameVal}
             clearNameVisible={clearNameVisible}
             setClearNameVisible={setClearNameVisible}

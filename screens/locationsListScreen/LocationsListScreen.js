@@ -25,16 +25,12 @@ const LocationsScreen = (props) => {
   const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
 
-  let searchNameVal = useRef('');
-  let searchTypeVal = useRef('');
+  const searchNameVal = useRef('');
+  const searchTypeVal = useRef('');
   let searchedNameVal = useRef('');
   let searchedTypeVal = useRef('');
   let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
-
-  const focusedHandler = () => {
-    setSearchButton(true);
-  };
 
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
@@ -136,7 +132,7 @@ const LocationsScreen = (props) => {
             ],
           }}>
           <SearchBar 
-            focusedHandler={focusedHandler} 
+            focusedHandler={setSearchButton}
             showSearchButton={showSearchButton}
             searchTypeVal={searchTypeVal}
             searchNameVal={searchNameVal}

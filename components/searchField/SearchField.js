@@ -51,7 +51,7 @@ const SearchField = ({
           style={styles.text}
           ref={(input) => (inputRef = input)}
           placeholder={inputRef.length < 1 ? null : `${placeholder}...`}
-          onFocus={focusedHandler}
+          onFocus={() => focusedHandler(true)}
           onChangeText={onInputChangeHandler}
           clearButtonMode="unless-editing"
         />
