@@ -3,18 +3,15 @@ import {View, TouchableNativeFeedback, Text} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const InitButton = ({onPressAction, style}) => {
-
-  return (
-    <View style={{...style, ...styles.buttonContainer}}>
-      <TouchableNativeFeedback onPress={onPressAction}>
-        <View style={styles.button}>
-          <Text style={styles.text}>Start</Text>
-        </View>
-      </TouchableNativeFeedback>
-    </View>
-  );
-};
+const InitButton = ({onPressAction, style}) => (
+  <View style={{...style, ...styles.buttonContainer}}>
+    <TouchableNativeFeedback onPress={onPressAction}>
+      <View style={styles.button}>
+        <Text style={styles.text}>Start</Text>
+      </View>
+    </TouchableNativeFeedback>
+  </View>
+);
 
 InitButton.propTypes = {
   onPressAction: PropTypes.func,

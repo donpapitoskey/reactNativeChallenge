@@ -3,15 +3,13 @@ import {Text, View} from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const NestedText = ({children, reference}) => {
+const NestedText = ({children, reference}) => (
+  <View style={styles.container}>
+    <Text style={styles.text}>{reference}</Text>
+    <Text style={styles.text}>{children}</Text>
+  </View>
+);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{reference}</Text>
-      <Text style={styles.text}>{children}</Text>
-    </View>
-  );
-};
 
 NestedText.propTypes = {
   children: PropTypes.string,

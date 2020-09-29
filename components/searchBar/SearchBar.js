@@ -16,37 +16,34 @@ const SearchBar = ({
   isEpisode,
   searchNameVal,
   searchTypeVal,
-}) => {
- 
-
-  return (
-    <View style={styles.header}>
+}) => (
+  <View style={styles.header}>
+    <SearchField
+      placeholder="Name"
+      focusedHandler={focusedHandler}
+      showSearchButton={showSearchButton}
+      searchInputVal={searchNameVal}
+      searchOppositeValue={searchTypeVal}
+      clearInputVisible={clearNameVisible}
+      setClearInputVisible={setClearNameVisible}
+      onSearch={onNewSearchHandler}
+      onPressHandler={onPressHandler}
+    />
+    {!isEpisode && (
       <SearchField
-        placeholder="Name"
+        placeholder="Type"
         focusedHandler={focusedHandler}
         showSearchButton={showSearchButton}
-        searchInputVal={searchNameVal}
-        searchOppositeValue={searchTypeVal}
-        clearInputVisible={clearNameVisible}
-        setClearInputVisible={setClearNameVisible}
+        searchInputVal={searchTypeVal}
+        searchOppositeValue={searchNameVal}
+        clearInputVisible={clearTypeVisible}
+        setClearInputVisible={setClearTypeVisible}
         onSearch={onNewSearchHandler}
         onPressHandler={onPressHandler}
       />
-      {!isEpisode && <SearchField
-          placeholder="Type"
-          focusedHandler={focusedHandler}
-          showSearchButton={showSearchButton}
-          searchInputVal={searchTypeVal}
-          searchOppositeValue={searchNameVal}
-          clearInputVisible={clearTypeVisible}
-          setClearInputVisible={setClearTypeVisible}
-          onSearch={onNewSearchHandler}
-          onPressHandler={onPressHandler}
-        />
-      }
-    </View>
-  );
-};
+    )}
+  </View>
+);
 
 SearchBar.propTypes = {
   focusedHandler: PropTypes.func,
@@ -58,8 +55,8 @@ SearchBar.propTypes = {
   clearTypeVisible: PropTypes.bool,
   setClearTypeVisible: PropTypes.func,
   isEpisode: PropTypes.bool,
-  searchNameVal: PropTypes.shape({current: PropTypes.string}),
-  searchTypeVal: PropTypes.shape({current: PropTypes.string}),
+  searchNameVal: PropTypes.shape({ current: PropTypes.string }),
+  searchTypeVal: PropTypes.shape({ current: PropTypes.string }),
 };
 
 export default SearchBar;
