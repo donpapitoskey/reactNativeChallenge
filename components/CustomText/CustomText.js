@@ -4,7 +4,7 @@ import {Text} from 'react-native';
 
 const CustomText = ({children, fontSize}) => {
   
-  return <Text style={{fontSize: fontSize}}>{children}</Text>;
+  return <Text style={{fontSize}}>{children}</Text>;
 };
 
 CustomText.propTypes = {
