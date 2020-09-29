@@ -20,11 +20,7 @@ const SearchField = ({
 
   const onInputChangeHandler = (text) => {
     searchInputVal.current = text;
-    if (text.length > 0) {
-      setClearInputVisible(true);
-    } else {
-      setClearInputVisible(false);
-    }
+    setClearInputVisible(text.length > 0);
     if (text.length > 2) {
       onSearch();
     }
