@@ -53,7 +53,8 @@ const LocationsScreen = (props) => {
         setArrayLocationsValue(arrayOp.concat(data.locations.results));
         setFetchingValue(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         setErrorFlag(true);
         setFetchingValue(false);
       });

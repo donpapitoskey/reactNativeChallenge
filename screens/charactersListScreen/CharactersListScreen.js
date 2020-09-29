@@ -53,7 +53,8 @@ const CharactersScreen = (props) => {
         setArrayCharsValue(arrayOp.concat(data.characters.results));
         setFetchingValue(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         setErrorFlag(true);
         setFetchingValue(false);
       });

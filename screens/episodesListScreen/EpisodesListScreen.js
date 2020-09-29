@@ -46,7 +46,8 @@ const EpisodesScreen = (props) => {
         setArrayEpisodesValue(arrayOp.concat(data.episodes.results));
         setFetchingValue(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         setErrorFlag(true);
         setFetchingValue(false);
       });
