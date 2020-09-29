@@ -55,13 +55,13 @@ const SearchField = ({
           onChangeText={onInputChangeHandler}
           clearButtonMode="unless-editing"
         />
-        {clearInputVisible ? (
+        {clearInputVisible && (
           <IconButton
             showSearchButton={showSearchButton}
             name="close-sharp"
             onPressAction={inputCancelButtonPressedHandler}
           />
-        ) : null}
+        )}
       </View>
     </View>
   );
