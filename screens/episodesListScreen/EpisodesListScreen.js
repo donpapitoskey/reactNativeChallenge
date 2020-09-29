@@ -97,16 +97,18 @@ const EpisodesScreen = (props) => {
       <Card
         name={name}
         episode={episode}
-        onSelect={() => {
-          props.navigation.navigate({
-            routeName: 'Details',
-            params: {
-              item: itemData.item,
-            },
-          });
-        }}
+        onSelect={() => navigateToScreen(itemData, 'Details')}
       />
     );
+  };
+
+  const navigateToScreen = (itemData, routeName) => {
+    props.navigation.navigate({
+      routeName,
+      params: {
+        item: itemData.item,
+      },
+    });
   };
 
   return (
