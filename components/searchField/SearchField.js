@@ -11,7 +11,7 @@ const SearchField = ({
   searchOppositeValue,
   clearInputVisible,
   setClearInputVisible,
-  onSearch,
+  searchEntities,
   onPressHandler,
   searchInputVal,
 }) => {
@@ -22,7 +22,7 @@ const SearchField = ({
     searchInputVal.current = text;
     setClearInputVisible(text.length > 0);
     if (text.length > 2) {
-      onSearch();
+      searchEntities();
     }
   };
 
@@ -33,7 +33,7 @@ const SearchField = ({
     searchInputVal.current = '';
     setClearInputVisible(false);
     if (searchOppositeValue.current.length > 2) {
-      onSearch();
+      searchEntities();
     }
   };
 
@@ -75,7 +75,7 @@ SearchField.propTypes = {
   searchOppositeValue: PropTypes.shape({current: PropTypes.string}),
   clearInputVisible: PropTypes.bool,
   setClearInputVisible: PropTypes.func,
-  onSearch: PropTypes.func,
+  searchEntities: PropTypes.func,
   onPressHandler: PropTypes.func,
   searchInputVal: PropTypes.shape({current: PropTypes.string}),
 };

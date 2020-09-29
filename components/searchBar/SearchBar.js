@@ -26,7 +26,7 @@ const SearchBar = ({
       searchOppositeValue={searchTypeVal}
       clearInputVisible={clearNameVisible}
       setClearInputVisible={setClearNameVisible}
-      onSearch={onNewSearchHandler}
+      searchEntities={onNewSearchHandler}
       onPressHandler={onPressHandler}
     />
     {!isEpisode && (
@@ -38,7 +38,7 @@ const SearchBar = ({
         searchOppositeValue={searchNameVal}
         clearInputVisible={clearTypeVisible}
         setClearInputVisible={setClearTypeVisible}
-        onSearch={onNewSearchHandler}
+        searchEntities={onNewSearchHandler}
         onPressHandler={onPressHandler}
       />
     )}
