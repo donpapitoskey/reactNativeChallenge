@@ -12,38 +12,68 @@ import client from '../../services/apollo';
 import Query from '../../services/queries';
 import styles from './styles';
 
-const EpisodesScreen = (props) => {
+const ListScreen = (props) => {
 
-  const [arrayEpisodes, setArrayEpisodesValue] = useState([]);
+  const {routeName} = props.navigation.state;
+  const typeOfSearch = routeName.toLowerCase();
+
+  const [arrayItems, setArrayItemsValue] = useState([]);
   const [fetching, setFetchingValue] = useState(false);
   const [showSearchButton, setSearchButton] = useState(false);
   const [searchedNameValue, setSearchedNameValue] = useState('');
+  const [searchedTypeValue, setSearchedTypeValue] = useState('');
   const [searchingPageValue, setSearchingPage] = useState(1);
   const [maxPagesValue, setMaxPageValue] = useState(2);
   const [clearNameVisible, setClearNameVisible] = useState(false);
+  const [clearTypeVisible, setClearTypeVisible] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);
+  const [isEpisode, setIsEpisode] = useState(typeOfSearch === 'episodes');
 
   const searchNameVal = useRef('');
+  const searchTypeVal = useRef('');
   let searchedNameVal = useRef('');
+  let searchedTypeVal = useRef('');
   let acumulator = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
+
+  const storeInfo = (data, arrayOp) => {
+    switch (typeOfSearch) {
+      case 'characters':
+        setMaxPageValue(data.characters.info.pages);
+        setArrayItemsValue(arrayOp.concat(data.characters.results));
+        break;
+      case 'locations':
+        setMaxPageValue(data.locations.info.pages);
+        setArrayItemsValue(arrayOp.concat(data.locations.results));
+        break;
+      case 'episodes':
+        setMaxPageValue(data.episodes.info.pages);
+        setArrayItemsValue(arrayOp.concat(data.episodes.results));
+        setIsEpisode(true);
+        break;
+      default:
+        break;
+    }
+  };
 
   const onSearchHandler = (newpage, arrayOp) => {
     setFetchingValue(true);
     searchedNameVal = searchNameVal;
     setSearchedNameValue(searchedNameVal.current);
+    searchedTypeVal = searchTypeVal;
+    setSearchedTypeValue(searchedTypeVal.current);
     client
       .query({
         query: Query({
-          typeOfSearch: 'episodes',
+          typeOfSearch,
           searchingPage: newpage,
           searchName: searchNameVal.current,
+          searchType: searchTypeVal.current,
         }),
       })
       .then(({data}) => {
         setErrorFlag(false);
-        setMaxPageValue(data.episodes.info.pages);
-        setArrayEpisodesValue(arrayOp.concat(data.episodes.results));
+        storeInfo(data, arrayOp);
         setFetchingValue(false);
       })
       .catch((error) => {
@@ -53,16 +83,17 @@ const EpisodesScreen = (props) => {
       });
   };
 
-  const onNewSearchHandler = (event) => {
-    setArrayEpisodesValue([]);
+  const onNewSearchHandler = () => {
+    setArrayItemsValue([]);
     setSearchingPage(1);
     onSearchHandler(1, []);
   };
 
   const onPageRequestHandler = () => {
+
     if (searchingPageValue < maxPagesValue) {
       const newPage = searchingPageValue + 1;
-      onSearchHandler(newPage, arrayEpisodes);
+      onSearchHandler(newPage, arrayItems);
       setSearchingPage(newPage);
     }
   };
@@ -73,7 +104,7 @@ const EpisodesScreen = (props) => {
   };
 
   const onPressHandler = () => {
-    if (searchNameVal.current.length > 2) {
+    if (searchNameVal.current.length > 2 || searchTypeVal.current.length > 2) {
       outsidePressHandler();
       onNewSearchHandler();
     }
@@ -92,19 +123,21 @@ const EpisodesScreen = (props) => {
   };
 
   const renderListItem = (itemData) => {
-    const {name, episode} = itemData.item;
+    const {image, name, dimension, episode} = itemData.item;
     return (
       <Card
         name={name}
+        image={image}
         episode={episode}
+        dimension={dimension}
         onSelect={() => navigateToScreen(itemData, 'Details')}
       />
     );
   };
 
-  const navigateToScreen = (itemData, routeName) => {
+  const navigateToScreen = (itemData, nextRouteName) => {
     props.navigation.navigate({
-      routeName,
+      routeName: nextRouteName,
       params: {
         item: itemData.item,
       },
@@ -112,7 +145,6 @@ const EpisodesScreen = (props) => {
   };
 
   return (
-
     <TouchableWithoutFeedback onPress={outsidePressHandler}>
       <View style={styles.screen}>
         <Animated.View
@@ -130,32 +162,32 @@ const EpisodesScreen = (props) => {
           <SearchBar 
             focusedHandler={setSearchButton} 
             showSearchButton={showSearchButton}
-            searchTypeVal={{current: ''}}
+            searchTypeVal={searchTypeVal}
             searchNameVal={searchNameVal}
             clearNameVisible={clearNameVisible}
             setClearNameVisible={setClearNameVisible}
-            clearTypeVisible={false}
-            setClearTypeVisible={() => {}}
+            clearTypeVisible={clearTypeVisible}
+            setClearTypeVisible={setClearTypeVisible}
             onNewSearchHandler={onNewSearchHandler}
             onPressHandler={onPressHandler}
-            isEpisode={true}
+            isEpisode={isEpisode}
           />
           {fetching ? <Text>Loading ...</Text> : null}
           <ResultsText
             searchedNameValue={searchedNameValue}
-            searchedTypeValue={''}
+            searchedTypeValue={searchedTypeValue}
           />
           <View>
             {errorFlag ? (
               <Error />
             ) : (
               <FlatList
-                data={arrayEpisodes}
-                onEndReachedThreshold={2}
+                data={arrayItems}
                 keyExtractor={(item, index) => item.id}
                 renderItem={renderListItem}
                 numColumns={1}
                 onEndReached={onPageRequestHandler}
+                onEndReachedThreshold={2}
                 onScroll={Animated.event([], {
                   useNativeDriver: false,
                   listener: (e) => scrollHandler(e.nativeEvent),
@@ -169,4 +201,4 @@ const EpisodesScreen = (props) => {
   );
 };
 
-export default EpisodesScreen;
+export default ListScreen;

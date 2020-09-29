@@ -1,17 +1,12 @@
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {theme} from '../styled/theme';
-import {
-  CharactersListScreen,
-  LocationsListScreen,
-  EpisodesListScreen,
-} from '../screens';
-
+import {ListScreen} from '../screens';
 
 const ListsTabNavigator = createMaterialTopTabNavigator(
   {
-    Characters: {screen: CharactersListScreen},
-    Locations: {screen: LocationsListScreen},
-    Episodes: {screen: EpisodesListScreen},
+    Characters: {screen: ListScreen},
+    Locations: {screen: ListScreen},
+    Episodes: {screen: ListScreen},
   },
   {
     tabBarPosition: 'bottom',
